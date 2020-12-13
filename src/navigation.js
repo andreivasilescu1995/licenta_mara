@@ -7,6 +7,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@rea
 
 import { BaseLogin } from './screens/BaseLogin';
 import { Home } from './screens/Home';
+import { Register } from './screens/Register';
 
 import { styles } from './style';
 import User from '../assets/img/user.svg';
@@ -20,18 +21,21 @@ export default function AppNavigation() {
         <NavigationContainer>
             <Stack.Navigator headerMode={'none'}>
                 <Stack.Screen name={'BaseLogin'} component={BaseLogin} />
-                <Stack.Screen name={'UnregisteredDrawerNav'} component={Unregistered} />
+                <Stack.Screen name={'DrawerNav'}>{props => <DrawerNav {...props} />}</Stack.Screen>
+                <Stack.Screen name={'Register'}>{props => <Register {...props} />}</Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
 
-const Unregistered = (props) => {
+const DrawerNav = (props) => {
+    const creditentials = { username: props.route.params.username, avatar: props.route.params.avatar };
+
     return (
         <Drawer.Navigator
             initialRouteName={'Home'}
             drawerStyle={{ backgroundColor: '#232323' }}
-            drawerContent={(props) => <DrawerNavigationContent {...props} />}
+            drawerContent={(props) => <DrawerNavigationContent {...props} creditentials={creditentials} />}
             drawerType={'slide'}
             edgeWidth={70}>
 
@@ -41,7 +45,9 @@ const Unregistered = (props) => {
 }
 
 const DrawerNavigationContent = (props) => {
-    const [loggedIn, setLoggedIn] = React.useState(true);
+    const [loggedIn, setLoggedIn] = React.useState(props.creditentials != null ? true : false);
+
+    console.log('props:', props)
 
     return (
         <>
@@ -50,7 +56,7 @@ const DrawerNavigationContent = (props) => {
                     <UserLogged width={65} height={65} />
                     <View style={{ flexDirection: 'column', paddingLeft: 10 }}>
                         <Text style={[{ color: '#fff' }]}>Salut,</Text>
-                        <Text style={{ color: '#fff' }}>Test user</Text>
+                        <Text style={{ color: '#fff' }}>{props.creditentials.username}</Text>
                     </View>
                 </View>
                 :
@@ -77,7 +83,7 @@ const DrawerNavigationContent = (props) => {
                 :
                 <DrawerContentScrollView {...props}>
                     <TouchableOpacity
-                        onPress={() => setLoggedIn(true)}
+                        onPress={() => props.navigation.navigate('BaseLogin')}
                         style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20 }}>
                         <Text style={{ color: '#fff' }}>Intra in cont</Text>
                     </TouchableOpacity>

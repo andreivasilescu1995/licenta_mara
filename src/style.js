@@ -4,6 +4,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%', 
+        height: '100%',
     },
     logo: {
         marginVertical: '30%',
@@ -30,7 +32,10 @@ export const styles = StyleSheet.create({
     textInput: {
         width: '100%',
         paddingLeft: 30,
-        color: '#fff'
+        color: '#fff',
+        fontSize: 13,
+        fontFamily: 'OpenSans-Regular',
+        height: 40,
     },
     loginButton: {
         width: '40%',

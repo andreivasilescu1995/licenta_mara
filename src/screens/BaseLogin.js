@@ -12,6 +12,10 @@ export const BaseLogin = (props) => {
     const [password, setPassword] = React.useState('admin');
     const [switchMedic, setSwitchMedic] = React.useState(false);
 
+    const checkLogin = () => {
+        props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') });
+    }
+
     return (
         <>
             {props.navigation.dangerouslyGetState().index == 0 ?
@@ -67,7 +71,7 @@ export const BaseLogin = (props) => {
                     style={styles.loginButton}>
                     <TouchableOpacity
                         style={{}}
-                        onPress={() => { }}>
+                        onPress={() => { checkLogin() }}>
                         <Text style={{ color: '#fff' }}>Autentificare</Text>
                     </TouchableOpacity>
                 </LinearGradient>
@@ -81,7 +85,7 @@ export const BaseLogin = (props) => {
                     style={[styles.loginButton, { paddingHorizontal: 20, marginTop: 20 }]}>
                     <TouchableOpacity
                         style={{}}
-                        onPress={() => { }}>
+                        onPress={() => { props.navigation.navigate('Register') }}>
                         <Text style={{ color: '#fff' }}>Inregistreaza-te</Text>
                     </TouchableOpacity>
                 </LinearGradient>
