@@ -199,8 +199,9 @@ export const Register = (props) => {
                     progress == 'succes' ?
                         <Text style={{ color: '#fff' }}>Inregistrare cu succes</Text>
                         :
-                        <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
-                }
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
+                        </View>}
 
                 {progress != 'done' ?
                     <LinearGradient
