@@ -9,7 +9,7 @@ import * as Progress from 'react-native-progress';
 import { styles } from '../style';
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
-import FoundationIcons from "react-native-vector-icons/FoundationIcons";
+import FoundationIcons from "react-native-vector-icons/Foundation";
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
