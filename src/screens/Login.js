@@ -8,15 +8,15 @@ import { styles } from '../style';
 import AntIcon from "react-native-vector-icons/EvilIcons";
 import Foundation from "react-native-vector-icons/Foundation";
 
-export const BaseLogin = (props) => {
+export const Login = (props) => {
     const [username, setUsername] = React.useState('admin');
     const [password, setPassword] = React.useState('admin');
     const [switchMedic, setSwitchMedic] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
 
     const checkLogin = () => {
-        // props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') });
-        setProgress('loading')
+        setProgress('loading');
+        setTimeout(() => { setProgress(0); props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') }); }, 1000);
     }
 
     return (
@@ -96,7 +96,7 @@ export const BaseLogin = (props) => {
                         </LinearGradient>
 
                         <TouchableOpacity
-                            onPress={() => { props.navigation.navigate('UnregisteredDrawerNav') }}
+                            onPress={() => { props.navigation.navigate('DrawerNav', {}) }}
                             style={{ position: 'absolute', bottom: 10, right: 10 }}>
                             <Text style={{ color: '#fff' }}>Ma autentific mai tarziu</Text>
                         </TouchableOpacity>

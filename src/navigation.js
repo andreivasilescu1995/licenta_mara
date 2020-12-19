@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 
-import { BaseLogin } from './screens/BaseLogin';
+import { Login } from './screens/Login';
 import { Home } from './screens/Home';
 import { Register } from './screens/Register';
 
@@ -20,7 +20,7 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator headerMode={'none'}>
-                <Stack.Screen name={'BaseLogin'} component={BaseLogin} />
+                <Stack.Screen name={'Login'} component={Login} />
                 <Stack.Screen name={'DrawerNav'}>{props => <DrawerNav {...props} />}</Stack.Screen>
                 <Stack.Screen name={'Register'}>{props => <Register {...props} />}</Stack.Screen>
             </Stack.Navigator>
@@ -29,7 +29,9 @@ export default function AppNavigation() {
 }
 
 const DrawerNav = (props) => {
-    const creditentials = { username: props.route.params.username, avatar: props.route.params.avatar };
+    var creditentials = null;
+    if (props.route.params.username != undefined)
+        creditentials = { username: props.route.params.username, avatar: props.route.params.avatar };
 
     return (
         <Drawer.Navigator
@@ -46,8 +48,6 @@ const DrawerNav = (props) => {
 
 const DrawerNavigationContent = (props) => {
     const [loggedIn, setLoggedIn] = React.useState(props.creditentials != null ? true : false);
-
-    console.log('props:', props)
 
     return (
         <>
@@ -83,7 +83,7 @@ const DrawerNavigationContent = (props) => {
                 :
                 <DrawerContentScrollView {...props}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate('BaseLogin')}
+                        onPress={() => props.navigation.navigate('Login')}
                         style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20 }}>
                         <Text style={{ color: '#fff' }}>Intra in cont</Text>
                     </TouchableOpacity>
