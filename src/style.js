@@ -48,5 +48,10 @@ export const styles = StyleSheet.create({
     },
     drawerLabel: {
         color: '#fff',
+    },
+    doneRegistering: {
+        fontSize: 15,
+        fontFamily: 'OpenSans-Regular',
+        color: '#fff',
     }
 })

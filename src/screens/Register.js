@@ -8,11 +8,11 @@ import * as Progress from 'react-native-progress';
 
 import { styles } from '../style';
 
-import AntIcon from "react-native-vector-icons/EvilIcons";
-import Foundation from "react-native-vector-icons/Foundation";
-import Back from 'react-native-vector-icons/Entypo';
-import Right from 'react-native-vector-icons/AntDesign';
-import ID from 'react-native-vector-icons/FontAwesome';
+import EvilIcons from "react-native-vector-icons/EvilIcons";
+import FoundationIcons from "react-native-vector-icons/FoundationIcons";
+import EntypoIcons from 'react-native-vector-icons/Entypo';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
+import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const Register = (props) => {
     const [username, setUsername] = React.useState(null);
@@ -26,6 +26,29 @@ export const Register = (props) => {
     const [sex, setSex] = React.useState('m');
 
     const [progress, setProgress] = React.useState(0);
+
+    const DoneRegistering = () => {
+        return (
+            <View style={{ alignItems: 'center' }}>
+                <AntDesignIcons name={'check'} size={80} color={'green'} />
+                <Text style={styles.doneRegistering}>Inregistrare cu succes!</Text>
+                <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={
+                        ['#3CDE87', '#C49C0F']
+                    }
+                    style={[styles.loginButton, { marginTop: 30, marginBottom: 15 }]}>
+                    <TouchableOpacity
+                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => { props.navigation.navigate('Login') }}>
+                        <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Regular', color: '#fff', marginRight: 15 }}>Login</Text>
+                        <AntDesignIcons name={'arrowright'} style={{ top: 2 }} color='#fff' />
+                    </TouchableOpacity>
+                </LinearGradient>
+            </View>
+        )
+    }
 
     return (
         <LinearGradient
@@ -44,7 +67,7 @@ export const Register = (props) => {
                         else
                             props.navigation.goBack()
                     }}>
-                    <Back name={'chevron-left'} color='#fff' size={30} />
+                    <EntypoIcons name={'chevron-left'} color='#fff' size={30} />
                 </TouchableOpacity>
 
                 {progress != 'done' ?
@@ -60,7 +83,7 @@ export const Register = (props) => {
                                         value={username}
                                         onChangeText={text => setUsername(text)}
                                     />
-                                    <AntIcon style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                                    <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
                                 </View>
 
                                 <View style={[styles.viewInput, { marginTop: 30 }]}>
@@ -73,7 +96,7 @@ export const Register = (props) => {
                                         onChangeText={text => setPassword(text)}
                                         value={password}
                                     />
-                                    <Foundation style={{ position: 'absolute', left: 12 }} name="key" color="white" size={20} />
+                                    <FoundationIcons style={{ position: 'absolute', left: 12 }} name="key" color="white" size={20} />
                                 </View>
                             </Animatable.View>
                         }
@@ -88,7 +111,7 @@ export const Register = (props) => {
                                         value={name}
                                         onChangeText={text => setName(text)}
                                     />
-                                    <AntIcon style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                                    <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
                                 </View>
 
                                 <View style={[styles.viewInput, { marginTop: 20 }]}>
@@ -99,7 +122,7 @@ export const Register = (props) => {
                                         value={email}
                                         onChangeText={text => setEmail(text)}
                                     />
-                                    <Back style={{ position: 'absolute', left: 8 }} name="email" color="white" size={20} />
+                                    <EntypoIcons style={{ position: 'absolute', left: 8 }} name="email" color="white" size={20} />
                                 </View>
 
                                 <View style={[styles.viewInput, { marginTop: 20 }]}>
@@ -111,7 +134,7 @@ export const Register = (props) => {
                                         onChangeText={text => setCNP(text)}
                                         keyboardType={'number-pad'}
                                     />
-                                    <ID style={{ position: 'absolute', left: 8 }} name="id-card" color="white" size={20} />
+                                    <FontAwesomeIcons style={{ position: 'absolute', left: 8 }} name="id-card" color="white" size={20} />
                                 </View>
 
                                 <View style={[styles.viewInput, { marginTop: 20 }]}>
@@ -124,7 +147,7 @@ export const Register = (props) => {
                                         onChangeText={text => setAddress(text)}
                                         value={address}
                                     />
-                                    <Back style={{ position: 'absolute', left: 12 }} name="address" color="white" size={20} />
+                                    <EntypoIcons style={{ position: 'absolute', left: 12 }} name="address" color="white" size={20} />
                                 </View>
 
                                 <View style={[styles.viewInput, { marginTop: 20 }]}>
@@ -137,7 +160,7 @@ export const Register = (props) => {
                                         value={phoneNumber}
                                         keyboardType={'phone-pad'}
                                     />
-                                    <Back style={{ position: 'absolute', left: 12 }} name="old-phone" color="white" size={20} />
+                                    <EntypoIcons style={{ position: 'absolute', left: 12 }} name="old-phone" color="white" size={20} />
                                 </View>
 
                                 <DatePicker
@@ -175,7 +198,7 @@ export const Register = (props) => {
 
                                 <View style={[styles.inputView, { width: '80%', height: 50, paddingHorizontal: 5, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginTop: 20 }]}>
                                     <View style={{ position: 'absolute', top: 10, left: 10 }}>
-                                        <ID name={'intersex'} size={25} color={'#fff'} />
+                                        <FontAwesomeIcons name={'intersex'} size={25} color={'#fff'} />
                                     </View>
                                     <Picker
                                         selectedValue={sex}
@@ -189,7 +212,7 @@ export const Register = (props) => {
                                     <View
                                         style={{ position: 'absolute', right: 10, top: 17 }}
                                         onPress={() => { }}>
-                                        <Right name={'caretdown'} fontSize={20} color={'#fff'} />
+                                        <AntDesignIcons name={'caretdown'} fontSize={20} color={'#fff'} />
                                     </View>
                                 </View>
                             </Animatable.View>
@@ -197,34 +220,39 @@ export const Register = (props) => {
                     </>
                     :
                     progress == 'succes' ?
-                        <Text style={{ color: '#fff' }}>Inregistrare cu succes</Text>
+                        null
                         :
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                             <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
                         </View>}
 
-                {progress != 'done' ?
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={
-                            ['#3CDE87', '#C49C0F']
-                        }
-                        style={[styles.loginButton, { marginTop: 30, marginBottom: 15 }]}>
-                        <TouchableOpacity
-                            style={{ flexDirection: 'row', alignItems: 'center' }}
-                            onPress={() => {
-                                if (progress == 1)
-                                    setProgress('done');
-                                else
-                                    setProgress(progress + 1)
-                            }}>
-                            <Text style={{ color: '#fff', marginRight: 15 }}>{progress == 1 ? 'Finalizeaza' : 'Mai departe'}</Text>
-                            <Right name={'arrowright'} style={{ top: 2 }} color='#fff' />
-                        </TouchableOpacity>
-                    </LinearGradient>
+                {progress != 'succes' ?
+                    progress != 'done' ?
+                        <LinearGradient
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}
+                            colors={
+                                ['#3CDE87', '#C49C0F']
+                            }
+                            style={[styles.loginButton, { marginTop: 30, marginBottom: 15 }]}>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => {
+                                    if (progress == 1) {
+                                        setProgress('done');
+                                        setTimeout(() => setProgress('succes'), 1000);
+                                    }
+                                    else
+                                        setProgress(progress + 1)
+                                }}>
+                                <Text style={{ color: '#fff', marginRight: 15 }}>{progress == 1 ? 'Finalizeaza' : 'Mai departe'}</Text>
+                                <AntDesignIcons name={'arrowright'} style={{ top: 2 }} color='#fff' />
+                            </TouchableOpacity>
+                        </LinearGradient>
+                        :
+                        null
                     :
-                    null
+                    <DoneRegistering />
                 }
             </ScrollView>
         </LinearGradient >
