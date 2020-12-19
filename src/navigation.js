@@ -75,7 +75,7 @@ const DrawerNavigationContent = (props) => {
                     <DrawerItem labelStyle={styles.drawerLabel} label="Diagnostic temporar" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Servicii/Preturi" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Consultatiile mele" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Medici mei" onPress={() => { }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Medicii mei" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Scaneaza cod QR" onPress={() => { }} />

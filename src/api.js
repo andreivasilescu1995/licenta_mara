@@ -1,8 +1,7 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
 
 var api = {};
-var apiUrl = config.services.api.endpoint
+var apiUrl = 'http://172.24.66.82/'
 
 api.post = (url, data) => {
     return api.request('POST', url, data);
@@ -11,16 +10,12 @@ api.post = (url, data) => {
 api.get = (url, data) => {
     return api.request('GET', url, data);
 };
-api.url = apiUrl;
 
 api.request = (method, url, data) => {
     return new Promise((resolve, reject) => {
         method = method.toUpperCase();
         url = apiUrl + url;
         let headers = {};
-        if (apiAuth && apiAuth.logged && apiAuth.token) {
-            headers = api.oauth.authorizationHeader(apiAuth.token);
-        }
         headers['Content-Type'] = 'application/json';
 
         api.sendRequest(method, url, headers, data)

@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 
 import { styles } from '../style';
+import api from '../api';
 
 import AntIcon from "react-native-vector-icons/EvilIcons";
 import Foundation from "react-native-vector-icons/Foundation";
@@ -16,7 +17,22 @@ export const Login = (props) => {
 
     const checkLogin = () => {
         setProgress('loading');
-        setTimeout(() => { setProgress(0); props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') }); }, 1000);
+        api.post('login', { username, password })
+            .then(result => {
+                if (result.data == true) {
+                    console.log('LOGARE CU SUCCES', result.data);
+                    props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') })
+                }
+                else
+                    if (result.data == false)
+                        alert('Nume sau parola gresite!');
+            })
+            .catch(error => {
+                alert('Eroare autentificare: ', JSON.stringify(error));
+            })
+            .finally(() => {
+                setProgress(0);
+            })
     }
 
     return (

@@ -62,7 +62,7 @@ export const Register = (props) => {
                 <TouchableOpacity
                     style={{ position: 'absolute', top: 15, left: 15 }}
                     onPress={() => {
-                        if (progress > 0 && progres != 'done')
+                        if (progress > 0 && progress != 'done')
                             setProgress(progress - 1);
                         else
                             props.navigation.goBack()
