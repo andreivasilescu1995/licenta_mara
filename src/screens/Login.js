@@ -20,7 +20,6 @@ export const Login = (props) => {
         api.post('login', { username, password })
             .then(result => {
                 if (result.data == true) {
-                    console.log('LOGARE CU SUCCES', result.data);
                     props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') })
                 }
                 else

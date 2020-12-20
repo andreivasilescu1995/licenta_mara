@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import * as Progress from 'react-native-progress';
 
 import { styles } from '../style';
+import api from '../api';
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import FoundationIcons from "react-native-vector-icons/Foundation";
@@ -15,17 +16,34 @@ import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const Register = (props) => {
-    const [username, setUsername] = React.useState(null);
-    const [password, setPassword] = React.useState(null);
-    const [name, setName] = React.useState(null);
-    const [email, setEmail] = React.useState(null);
-    const [CNP, setCNP] = React.useState(null);
-    const [address, setAddress] = React.useState(null);
-    const [phoneNumber, setPhoneNumber] = React.useState(null);
-    const [birthdate, setBirthDate] = React.useState(null);
+    const [username, setUsername] = React.useState('test1');
+    const [password, setPassword] = React.useState('test1');
+    const [name, setName] = React.useState('test1');
+    const [email, setEmail] = React.useState('test1');
+    const [cnp, setCnp] = React.useState('1234567891234');
+    const [address, setAddress] = React.useState('test1');
+    const [phoneNumber, setPhoneNumber] = React.useState('0737092953');
+    const [birthdate, setBirthDate] = React.useState('1995-07-13');
     const [sex, setSex] = React.useState('m');
 
     const [progress, setProgress] = React.useState(0);
+    const [warning, setWarning] = React.useState(null);
+    const refScrollView = React.createRef();
+
+    const register = () => {
+        api.post('register', { name, username, password, email, cnp, address, phoneNumber, birthdate, sex })
+            .then(result => {
+                if (result.data == true) {
+                    setProgress('succes');
+                }
+                else
+                    if (result.data == false)
+                        alert('Inregistrare esuata!');
+            })
+            .catch(error => {
+                alert('Eroare inregistrare: ', JSON.stringify(error));
+            })
+    }
 
     const DoneRegistering = () => {
         return (
@@ -50,13 +68,49 @@ export const Register = (props) => {
         )
     }
 
+    const WarningMessage = () => {
+        return (
+            warning != null &&
+            <Animatable.View useNativeDriver={true} animation={warning != null ? 'bounceInLeft' : 'bounceOutRight'} style={[styles.warningMessage, { marginTop: 30, marginHorizontal: 10 }]}>
+                <View style={[styles.warningMessage, { padding: 20 }]}>
+                    <TouchableOpacity onPress={() => setWarning(null)}>
+                        <EvilIcons name="close" color="white" size={20} />
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Regular', marginLeft: 30, color: "white" }}>{warning}</Text>
+                </View>
+            </Animatable.View>
+        )
+    }
+
+    const checkRegisterFields = () => {
+        if (username != null && password != null && name != null && email != null && cnp != null && address != null && phoneNumber != null && birthdate != null && sex != null) {
+            if (cnp.length != 13) {
+                setWarning('CNP invalid');
+                return false;
+            }
+            if (!email.includes('@')) {
+                setWarning('Email invalid');
+                return false;
+            }
+            if (phoneNumber.toString().substring(0, 2) != "07" || phoneNumber.toString().length < 10) {
+                setWarning('Numar de telefon invalid');
+                return false;
+            }
+            return true;
+        }
+        else {
+            setWarning('Completati toate campurile!');
+            return false;
+        }
+    }
+
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
             colors={['#3b5998', '#192f6a']}
             style={[styles.container]}>
 
-            <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+            <ScrollView ref={refScrollView} contentContainerStyle={{ alignItems: 'center' }}>
                 <Text style={styles.logo}>LOGO + mesaj de bun venit</Text>
 
                 <TouchableOpacity
@@ -127,11 +181,11 @@ export const Register = (props) => {
 
                                 <View style={[styles.viewInput, { marginTop: 20 }]}>
                                     <TextInput
-                                        placeholder={'CNP'}
+                                        placeholder={'cnp'}
                                         placeholderTextColor={'#fff'}
                                         style={styles.textInput}
-                                        value={CNP}
-                                        onChangeText={text => setCNP(text)}
+                                        value={cnp}
+                                        onChangeText={text => setCnp(text)}
                                         keyboardType={'number-pad'}
                                     />
                                     <FontAwesomeIcons style={{ position: 'absolute', left: 8 }} name="id-card" color="white" size={20} />
@@ -226,6 +280,12 @@ export const Register = (props) => {
                             <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
                         </View>}
 
+                {warning != null ?
+                    <WarningMessage />
+                    :
+                    null
+                }
+
                 {progress != 'succes' ?
                     progress != 'done' ?
                         <LinearGradient
@@ -239,8 +299,10 @@ export const Register = (props) => {
                                 style={{ flexDirection: 'row', alignItems: 'center' }}
                                 onPress={() => {
                                     if (progress == 1) {
-                                        setProgress('done');
-                                        setTimeout(() => setProgress('succes'), 1000);
+                                        if (checkRegisterFields()) {
+                                            register()
+                                            setWarning(null)
+                                        }
                                     }
                                     else
                                         setProgress(progress + 1)

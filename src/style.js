@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '100%', 
+        width: '100%',
         height: '100%',
     },
     logo: {
@@ -53,5 +53,12 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: 'OpenSans-Regular',
         color: '#fff',
-    }
+    },
+    warningMessage: {
+        flex: 1,
+        flexDirection: "row",
+        backgroundColor: "#E3051B",
+        alignItems: "center",
+        borderRadius: 5,
+    },
 })
