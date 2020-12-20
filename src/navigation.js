@@ -19,7 +19,13 @@ const Drawer = createDrawerNavigator();
 export default function AppNavigation() {
     return (
         <NavigationContainer>
-            <Stack.Navigator headerMode={'none'}>
+            <Stack.Navigator
+                headerMode={'none'}
+                screenOptions={{
+                    headerShown: false,
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal'
+                }}>
                 <Stack.Screen name={'Login'} component={Login} />
                 <Stack.Screen name={'DrawerNav'}>{props => <DrawerNav {...props} />}</Stack.Screen>
                 <Stack.Screen name={'Register'}>{props => <Register {...props} />}</Stack.Screen>
