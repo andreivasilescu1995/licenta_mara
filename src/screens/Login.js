@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StatusBar, Switch, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StatusBar, Switch } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 

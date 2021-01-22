@@ -21,7 +21,8 @@ export const styles = StyleSheet.create({
         elevation: 10,
     },
     viewInput: {
-        width: '80%',
+        // width: '80%',
+        width: 250,
         height: 50,
         justifyContent: 'center',
         borderWidth: 1,
