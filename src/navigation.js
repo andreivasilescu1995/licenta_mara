@@ -6,8 +6,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 
 import { Login } from './screens/Login';
-import { Home } from './screens/Home';
+import { Home } from './screens/DrawerScreens/Home';
 import { Register } from './screens/Register';
+import Medics from './screens/DrawerScreens/Medics';
 import Appointments from './screens/DrawerScreens/Appointments';
 
 import { styles } from './style';
@@ -50,6 +51,7 @@ const DrawerNav = (props) => {
             edgeWidth={70}>
 
             <Drawer.Screen name={'Home'} component={Home} />
+            <Drawer.Screen name={'Medics'} component={Medics} />
         </Drawer.Navigator>
     )
 }
@@ -98,7 +100,7 @@ const DrawerNavigationContent = (props) => {
                     <DrawerItem labelStyle={styles.drawerLabel} label="Programari rapide" onPress={() => { props.navigation.navigate('Appointments') }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Servicii stomatologice" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Preturi" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics')}} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Contact" onPress={() => { }} />
                 </DrawerContentScrollView>}

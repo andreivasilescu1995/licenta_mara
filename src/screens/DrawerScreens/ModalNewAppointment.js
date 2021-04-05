@@ -97,6 +97,18 @@ export default class ModalNewAppointment extends React.Component {
                             </View>
 
                             <View style={styles.viewInput}>
+                                <TextInput
+                                    placeholder={'Telefon'}
+                                    placeholderTextColor={'#fff'}
+                                    autoCompleteType={'tel'}
+                                    style={styles.textInput}
+                                    value={this.state.phone}
+                                    onChangeText={text => this.setState({ phone: text })}
+                                />
+                                <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                            </View>
+
+                            <View style={styles.viewInput}>
                                 <Picker
                                     selectedValue={this.state.service}
                                     style={{ color: '#fff', marginLeft: 23 }}

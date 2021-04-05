@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 var api = {};
-var apiUrl = 'http://172.18.97.181/'
+var apiUrl = 'http://127.0.0.1:5000/'
 
 api.post = (url, data) => {
     return api.request('POST', url, data);
@@ -9,6 +9,7 @@ api.post = (url, data) => {
 
 api.get = (url, data) => {
     return api.request('GET', url, data);
+    
 };
 
 api.request = (method, url, data) => {
