@@ -9,7 +9,7 @@ export default class ModalNewAppointment extends React.Component {
             img_uri: null,
         }
 
-        console.log('PROPS MODAL MEDIC: ', props);
+        // console.log('PROPS MODAL MEDIC: ', props);
     }
 
     toggleModal = () => { this.setState({ showModal: !this.state.showModal }) };
@@ -29,23 +29,16 @@ export default class ModalNewAppointment extends React.Component {
                     onPress={() => this.toggleModal()}
                     style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1 }}>
                 </TouchableOpacity>
-                <View style={{ position: 'absolute', zIndex: 2, top: '25%', backgroundColor: '#fff', borderRadius: 10, width: '90%', height: '50%', alignSelf: 'center' }}>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ position: 'absolute', zIndex: 2, top: '20%', backgroundColor: '#fff', borderRadius: 10, width: '90%', height: '65%', alignSelf: 'center' }}>
+                    <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
                         {this.state.img_uri ?
                             <Image source={{ uri: this.state.img_uri }} style={{ height: 125, width: 125, resizeMode: 'cover', borderRadius: 63 }} />
                             :
                             <View style={{ width: 150, height: 150, borderRadius: 75, backgroundColor: '#d8d8d8' }} />
                         }
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{}}>Dr. Mircea Ardeleanu a facut parte din Asociatiile Stomatologice știintifice si a participat constant la cursuri si congrese de specialitate:</Text>
-                        <Text style={{}}>Competenta in implantologie dentara – Ministerul Sanatatii (2012)</Text>
-                        <Text style={{}}>Maraton de Estetica Dentara – Poiana Brasov, Romania, 2012</Text>
-                        <Text style={{}}>Cursuri fotografie dentara – Bucuresti, 2012 si Timișoara, 2012</Text>
-                        <Text style={{}}>Curs Implantologie – Traunreut, Germania, 2012</Text>
-                        <Text style={{}}>Congresul international de estetica dentara – SSER Societatea de stomatologie estetica din Romania, Prof. Univ. Dr. Constantin Varlan, Prof. Univ.Dr. Bogdan Dimitriu, Bucuresti, 2012</Text>
-                        <Text style={{}}>Curs Suturi ai Lambouri – Bucuresti, 2013</Text>
-                        <Text style={{}}>Curs Implantologie – Padova, Italia, 2013</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
+                        <Text style={{}}>{this.props.medic?.istoric}</Text>
                     </View>
                 </View>
             </Modal>
