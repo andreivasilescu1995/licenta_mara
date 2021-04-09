@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, TextInput } from 'react-native';
+import { Modal, View, TouchableOpacity, TextInput } from 'react-native';
 import { styles } from '../../style';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
@@ -15,7 +15,7 @@ export default class ModalNewAppointment extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            showModal: true,
+            showModal: false,
 
             name: 'test',
             age: 20,
@@ -58,7 +58,9 @@ export default class ModalNewAppointment extends React.Component {
                 transparent={true}
                 onRequestClose={() => { this.toggleModal() }}>
 
-                <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <TouchableOpacity
+                    onPress={() => this.toggleModal()}
+                    style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <View style={{ width: '100%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
                         <View style={{ flex: 1, justifyContent: 'space-between', marginVertical: '5%' }}>
                             <View style={styles.viewInput}>
@@ -187,7 +189,7 @@ export default class ModalNewAppointment extends React.Component {
                             </View>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
 
             </Modal >
         )

@@ -27,7 +27,7 @@ export const Login = (props) => {
                         alert('Nume sau parola gresite!');
             })
             .catch(error => {
-                alert('Eroare autentificare: ', JSON.stringify(error));
+                alert('Eroare autentificare: ', JSON.stringify(error.message));
             })
             .finally(() => {
                 setProgress(0);

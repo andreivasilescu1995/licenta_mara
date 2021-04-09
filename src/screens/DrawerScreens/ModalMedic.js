@@ -27,7 +27,7 @@ export default class ModalNewAppointment extends React.Component {
                 onRequestClose={() => { this.toggleModal() }}>
                 <TouchableOpacity
                     onPress={() => this.toggleModal()}
-                    style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1 }}>
+                    style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.7)', alignItems: 'center', justifyContent: 'center' }}>
                 </TouchableOpacity>
                 <View style={{ position: 'absolute', zIndex: 2, top: '20%', backgroundColor: '#fff', borderRadius: 10, width: '90%', height: '65%', alignSelf: 'center' }}>
                     <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
