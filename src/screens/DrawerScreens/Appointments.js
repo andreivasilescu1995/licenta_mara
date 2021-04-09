@@ -12,9 +12,11 @@ export default class Appointments extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            logged: props.logged,
+            logged: props?.route?.params?.logged,
         };
         this.refModalApp = React.createRef();
+
+        console.log('PROPS PROGRAMARI: ', props);
     }
 
     render() {
@@ -26,9 +28,7 @@ export default class Appointments extends React.Component {
                     colors={['#3b5998', '#192f6a']}
                     style={{ flex: 1, alignItems: 'center' }}>
 
-                    {this.props.logged ?
-                        null
-                        :
+                    {this.props.route.params.logged ?
                         <>
                             <ModalNewAppointment ref={this.refModalApp} />
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -58,6 +58,8 @@ export default class Appointments extends React.Component {
                                 </TouchableOpacity>
                             </View>
                         </>
+                        :
+                        null
                     }
                 </LinearGradient>
             </>

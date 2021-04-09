@@ -88,12 +88,11 @@ const DrawerNavigationContent = (props) => {
                         style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
                         <Text style={{ color: '#fff' }}>Logout</Text>
                     </TouchableOpacity>
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Diagnostic temporar" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Servicii/Preturi" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Consultatiile mele" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Medicii mei" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments') }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true }) }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Scaneaza cod QR" onPress={() => { }} />
                 </DrawerContentScrollView>
                 :
