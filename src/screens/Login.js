@@ -19,8 +19,9 @@ export const Login = (props) => {
         setProgress('loading');
         api.post('login', { username, password })
             .then(result => {
-                if (result.data == true) {
-                    props.navigation.navigate('DrawerNav', { username: username, avatar: require('../../assets/img/userLogged.svg') })
+                console.log(result)
+                if (result.data[0]) {
+                    props.navigation.navigate('DrawerNav', { username: username, user_id: result.data[0], avatar: require('../../assets/img/userLogged.svg') })
                 }
                 else
                     if (result.data == false)

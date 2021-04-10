@@ -149,7 +149,7 @@ export default class ModalNewAppointment extends React.Component {
                                 <View style={styles.viewInput}>
                                     <Picker
                                         selectedValue={this.state.service}
-                                        style={{ color: '#fff', marginLeft: 23 }}
+                                        style={{ width: '100%', color: '#fff', marginLeft: 23 }}
                                         onValueChange={(itemValue, itemIndex) =>
                                             this.setState({ service: itemValue })
                                         }>
@@ -164,14 +164,14 @@ export default class ModalNewAppointment extends React.Component {
                                 <View style={styles.viewInput}>
                                     <Picker
                                         selectedValue={this.state.location}
-                                        style={{ color: '#fff', marginLeft: 23 }}
+                                        style={{ width: '100%', color: '#fff', marginLeft: 23 }}
                                         onValueChange={(itemValue, itemIndex) =>
                                             this.setState({ location: itemValue })
                                         }>
                                         {this.state.locations ?
-                                            this.state.locations.map(location => {
+                                            this.state.locations.map((location, index) => {
                                                 return (
-                                                    <Picker.Item label={location.nume.toUpperCase()} value={location} />
+                                                    <Picker.Item key={index} label={location.nume.toUpperCase()} value={location} />
                                                 )
                                             })
                                             :
@@ -216,14 +216,14 @@ export default class ModalNewAppointment extends React.Component {
                                 <View style={styles.viewInput}>
                                     <Picker
                                         selectedValue={this.state.medic}
-                                        style={{ color: '#fff', marginLeft: 23 }}
+                                        style={{ width: '100%', color: '#fff', marginLeft: 23 }}
                                         onValueChange={(itemValue, itemIndex) =>
                                             this.setState({ medic: itemValue })
                                         }>
                                         {this.state.medics ?
-                                            this.state.medics.map(medic => {
+                                            this.state.medics.map((medic, index) => {
                                                 return (
-                                                    <Picker.Item label={medic.nume.toUpperCase()} value={medic} />
+                                                    <Picker.Item key={index} label={medic.nume.toUpperCase()} value={medic} />
                                                 )
                                             })
                                             :
