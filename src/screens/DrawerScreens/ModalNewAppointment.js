@@ -47,6 +47,7 @@ export default class ModalNewAppointment extends React.Component {
                 location_id: data.location.id,
                 timestamp: data.timestamp,
                 medic_id: data.medic.id,
+                id_pacient: this.props.user_id
             }
         )
             .then(response => {
@@ -241,7 +242,7 @@ export default class ModalNewAppointment extends React.Component {
                                     style={{ width: '40%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', borderRadius: 20, paddingVertical: 10, paddingHorizontal: 30, marginTop: 10, }}>
                                     <TouchableOpacity
                                         style={{}}
-                                        onPress={() => { this.sendAppointment() }}>
+                                        onPress={() => { this.sendAppointment(); this.props.onRefresh(); this.toggleModal(); }}>
                                         <Text style={{ color: '#fff' }}>Trimite</Text>
                                     </TouchableOpacity>
                                 </LinearGradient>

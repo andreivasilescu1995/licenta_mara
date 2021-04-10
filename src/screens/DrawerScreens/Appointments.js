@@ -22,12 +22,24 @@ export default class Appointments extends React.Component {
 
     componentDidMount() {
         if (this.props.route.params.user_id)
-            api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
-                .then(response => {
-                    console.log('programari: ', response.data);
-                    this.setState({ appointments: response.data, loading: false });
-                })
-                .finally(() => this.setState({ loading: false }));
+            this.getConsultations();
+    }
+
+    getConsultations() {
+        console.log('getting nwe cons')
+        api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
+            .then(response => {
+                console.log('programari: ', response.data);
+                this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
+            })
+            .finally(() => this.setState({ loading: false }));
+    }
+
+    refreshConsultations() {
+        setTimeout(() => {
+            this.setState({ loading: true });
+            this.getConsultations();
+        }, 3000);
     }
 
     render() {
@@ -41,14 +53,13 @@ export default class Appointments extends React.Component {
 
                     {this.props.route.params.logged === true ?
                         <>
-                            <ModalNewAppointment ref={this.refModalApp} />
+                            <ModalNewAppointment ref={this.refModalApp} onRefresh={() => { this.refreshConsultations() }} user_id={this.props.route.params.user_id} />
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                 <ScrollView>
                                     {this.state.appointments.map((appointment, index) => {
-                                        console.log('programare: ', appointment)
                                         appointment.data = new Date(appointment.data)
                                         return (
-                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                                            <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
                                                 <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
                                                 <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
