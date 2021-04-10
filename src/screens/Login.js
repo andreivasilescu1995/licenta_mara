@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StatusBar, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StatusBar } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 
@@ -10,9 +10,8 @@ import AntIcon from "react-native-vector-icons/EvilIcons";
 import Foundation from "react-native-vector-icons/Foundation";
 
 export const Login = (props) => {
-    const [username, setUsername] = React.useState('mara');
+    const [username, setUsername] = React.useState('test_medic');
     const [password, setPassword] = React.useState('1234');
-    const [switchMedic, setSwitchMedic] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
 
     const checkLogin = () => {
@@ -21,7 +20,7 @@ export const Login = (props) => {
             .then(result => {
                 console.log(result)
                 if (result.data[0]) {
-                    props.navigation.navigate('DrawerNav', { username: username, user_id: result.data[0], avatar: require('../../assets/img/userLogged.svg') })
+                    props.navigation.navigate('DrawerNav', { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') })
                 }
                 else
                     if (result.data == false)
@@ -70,17 +69,6 @@ export const Login = (props) => {
                                 value={password}
                             />
                             <Foundation style={{ position: 'absolute', left: 12 }} name="key" color="white" size={20} />
-                        </View>
-
-                        <View style={[styles.row, { alignItems: 'center', alignSelf: 'flex-start', paddingLeft: 35, paddingTop: 20 }]}>
-                            <Switch
-                                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                                thumbColor={switchMedic ? "#f5dd4b" : "#f4f3f4"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={(value) => { console.log(value); setSwitchMedic(switchMedic => !switchMedic) }}
-                                value={switchMedic}
-                            />
-                            <Text style={{ marginLeft: 10, color: switchMedic ? '#f5dd4b' : '#fff' }}>{switchMedic ? 'Medic' : 'Pacient'}</Text>
                         </View>
 
                         <LinearGradient

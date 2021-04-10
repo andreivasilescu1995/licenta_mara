@@ -42,7 +42,7 @@ export default function AppNavigation() {
 const DrawerNav = (props) => {
     var creditentials = null;
     if (props.route.params.username != undefined)
-        creditentials = { username: props.route.params.username, avatar: props.route.params.avatar, user_id: props.route.params.user_id };
+        creditentials = { username: props.route.params.username, avatar: props.route.params.avatar, user_id: props.route.params.user_id, medic: props.route.params.medic };
 
     return (
         <Drawer.Navigator
@@ -65,6 +65,8 @@ const DrawerNav = (props) => {
 
 const DrawerNavigationContent = (props) => {
     const [loggedIn, setLoggedIn] = React.useState(props.creditentials != null ? true : false);
+    const [medic, setMedic] = React.useState(props.creditentials.medic == 1);
+
     console.log('PROPS DRAWER: ', props)
 
     return (
@@ -84,19 +86,32 @@ const DrawerNavigationContent = (props) => {
             }
 
             {loggedIn ?
-                <DrawerContentScrollView {...props}>
-                    <TouchableOpacity
-                        onPress={() => { setLoggedIn(false); props.navigation.navigate('Login') }}
-                        style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
-                        <Text style={{ color: '#fff' }}>Logout</Text>
-                    </TouchableOpacity>
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id }) }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Scaneaza cod QR" onPress={() => { }} />
-                </DrawerContentScrollView>
+                medic ?
+                    <DrawerContentScrollView {...props}>
+                        <TouchableOpacity
+                            onPress={() => { setLoggedIn(false); props.navigation.navigate('Login') }}
+                            style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
+                            <Text style={{ color: '#fff' }}>Logout</Text>
+                        </TouchableOpacity>
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id, medic: props.creditentials.medic }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Contact" onPress={() => { props.navigation.navigate('Contact') }} />
+                    </DrawerContentScrollView>
+                    :
+                    <DrawerContentScrollView {...props}>
+                        <TouchableOpacity
+                            onPress={() => { setLoggedIn(false); props.navigation.navigate('Login') }}
+                            style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
+                            <Text style={{ color: '#fff' }}>Logout</Text>
+                        </TouchableOpacity>
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Scaneaza cod QR" onPress={() => { }} />
+                    </DrawerContentScrollView>
                 :
                 <DrawerContentScrollView {...props}>
                     <TouchableOpacity

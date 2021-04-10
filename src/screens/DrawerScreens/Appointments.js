@@ -26,13 +26,22 @@ export default class Appointments extends React.Component {
     }
 
     getConsultations() {
-        console.log('getting nwe cons')
-        api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
-            .then(response => {
-                console.log('programari: ', response.data);
-                this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
-            })
-            .finally(() => this.setState({ loading: false }));
+        if (this.props.route.params.medic === 1) {
+            api.post('getMedicConsultations', { id_medic: this.props.route.params.user_id })
+                .then(response => {
+                    console.log('programari: ', response.data);
+                    this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
+                })
+                .finally(() => this.setState({ loading: false }));
+        }
+        else {
+            api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
+                .then(response => {
+                    console.log('programari: ', response.data);
+                    this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
+                })
+                .finally(() => this.setState({ loading: false }));
+        }
     }
 
     refreshConsultations() {
@@ -49,51 +58,67 @@ export default class Appointments extends React.Component {
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}
-                    style={{ flex: 1, alignItems: 'center' }}>
+                    style={{ flex: 1, padding: 10 }}>
 
                     {this.props.route.params.logged === true ?
-                        <>
-                            <ModalNewAppointment ref={this.refModalApp} onRefresh={() => { this.refreshConsultations() }} user_id={this.props.route.params.user_id} />
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <ScrollView>
-                                    {this.state.appointments.map((appointment, index) => {
-                                        appointment.data = new Date(appointment.data)
-                                        return (
-                                            <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                                                <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
-                                                <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
-                                                <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
-                                                <Text style={{ color: '#fff' }}> {appointment.nume_medic}</Text>
-                                            </View>
-                                        )
-                                    })}
-                                </ScrollView>
-                                <Text style={{ color: '#fff', marginTop: '5%', marginBottom: 10 }}>Adauga programare</Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        if (this.state.logged)
-                                            this.refModalApp.current.toggleModal();
-                                        else
-                                            Alert.alert('Atentie', 'Aceasta sectiune este disponibila doar utilizatorilor inregistrati. Va rugam sa alegeti una din optiunile de mai jos.',
-                                                [
-                                                    {
-                                                        text: 'Autentificare',
-                                                        onPress: () => this.props.navigation.navigate('Login')
-                                                    },
-                                                    {
-                                                        text: 'Inregistrare',
-                                                        onPress: () => this.props.navigation.navigate('Register')
-                                                    },
-
-                                                ],
-                                                { cancelable: true }
+                        this.props.route.params.medic === 1 ?
+                            <ScrollView>
+                                {this.state.appointments.map((appointment, index) => {
+                                    console.log('consultatie: ', appointment)
+                                    appointment.data = new Date(appointment.data)
+                                    return (
+                                        <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                                            <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
+                                            <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
+                                            <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
+                                            <Text style={{ color: '#fff' }}> {appointment.nume_pacient}</Text>
+                                        </View>
+                                    )
+                                })}
+                            </ScrollView>
+                            :
+                            <>
+                                <ModalNewAppointment ref={this.refModalApp} onRefresh={() => { this.refreshConsultations() }} user_id={this.props.route.params.user_id} />
+                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <ScrollView>
+                                        {this.state.appointments.map((appointment, index) => {
+                                            appointment.data = new Date(appointment.data)
+                                            return (
+                                                <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                                                    <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
+                                                    <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
+                                                    <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
+                                                    <Text style={{ color: '#fff' }}> {appointment.nume_medic}</Text>
+                                                </View>
                                             )
-                                    }}
-                                    style={{ marginBottom: 20 }}>
-                                    <Icon name={'circle-with-plus'} color='#fff' size={35} />
-                                </TouchableOpacity>
-                            </View>
-                        </>
+                                        })}
+                                    </ScrollView>
+                                    <Text style={{ color: '#fff', marginTop: '5%', marginBottom: 10 }}>Adauga programare</Text>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            if (this.state.logged)
+                                                this.refModalApp.current.toggleModal();
+                                            else
+                                                Alert.alert('Atentie', 'Aceasta sectiune este disponibila doar utilizatorilor inregistrati. Va rugam sa alegeti una din optiunile de mai jos.',
+                                                    [
+                                                        {
+                                                            text: 'Autentificare',
+                                                            onPress: () => this.props.navigation.navigate('Login')
+                                                        },
+                                                        {
+                                                            text: 'Inregistrare',
+                                                            onPress: () => this.props.navigation.navigate('Register')
+                                                        },
+
+                                                    ],
+                                                    { cancelable: true }
+                                                )
+                                        }}
+                                        style={{ marginBottom: 20 }}>
+                                        <Icon name={'circle-with-plus'} color='#fff' size={35} />
+                                    </TouchableOpacity>
+                                </View>
+                            </>
                         :
                         <>
                             <Text style={{ color: '#fff', marginTop: '5%', marginBottom: 10 }}>Programari rapide</Text>
