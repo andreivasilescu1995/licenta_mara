@@ -26,10 +26,10 @@ export default class Appointments extends React.Component {
     }
 
     getConsultations() {
-        if (this.props.route.params.medic !== 0) {
+        if (this.props.route.params.medic && this.props.route.params.medic !== 0) {
             api.post('getMedicConsultations', { id_user: this.props.route.params.user_id })
                 .then(response => {
-                    // console.log('programari: ', response.data);
+                    console.log('programari: ', response.data);
                     this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
@@ -37,7 +37,7 @@ export default class Appointments extends React.Component {
         else {
             api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
                 .then(response => {
-                    console.log('programari: ', response.data);
+                    // console.log('programari: ', response.data);
                     this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
