@@ -21,6 +21,10 @@ export default class ModalNewAppointment extends React.Component {
             location: null,
             timestamp: null,
             medic: null,
+            servicies: null,
+            selectedService: null,
+            subServicies: null,
+            selectedSubservice: null,
 
             loading: true,
             medics: null,
@@ -31,11 +35,13 @@ export default class ModalNewAppointment extends React.Component {
     componentDidMount() {
         this.getMedics();
         this.getLocations();
+        this.getServicies();
     }
 
     toggleModal = () => { this.setState({ showModal: !this.state.showModal }) };
 
     sendAppointment() {
+        console.log('DATE:', this.state);
         const data = this.state;
         api.post('createConsultation',
             {
@@ -47,7 +53,9 @@ export default class ModalNewAppointment extends React.Component {
                 location_id: data.location.id,
                 timestamp: data.timestamp,
                 medic_id: data.medic.id,
-                id_pacient: this.props.user_id
+                id_pacient: this.props.user_id,
+                id_serviciu: this.state.selectedService.id,
+                id_subserviciu: this.state.selectedSubservice.id,
             }
         )
             .then(response => {
@@ -62,7 +70,7 @@ export default class ModalNewAppointment extends React.Component {
     getMedics() {
         api.post('getMedics', {})
             .then(response => {
-                // console.log('MEDICI: ', response);
+                console.log('MEDICI: ', response);
                 this.setState({ medics: response.data, medic: response.data[0], loading: false });
             })
             .finally(() => this.setState({ loading: false }));
@@ -71,10 +79,29 @@ export default class ModalNewAppointment extends React.Component {
     getLocations() {
         api.post('getLocations', {})
             .then(response => {
-                // console.log('Locatii: ', response);
+                console.log('Locatii: ', response);
                 this.setState({ locations: response.data, location: response.data[0], loading: false });
             })
             .finally(() => this.setState({ loading: false }));
+    }
+
+    getServicies() {
+        api.post('getServicies', {})
+            .then(response => {
+                console.log('Servicii: ', response);
+                this.setState({ servicies: response.data, selectedService: response.data[0], loading: false }, () => {
+                    this.getSubServicies();
+                });
+            })
+            .finally(() => this.setState({ loading: false }));
+    }
+
+    getSubServicies() {
+        api.post('getSubService', { id: this.state.selectedService.id })
+            .then(response => {
+                console.log('RESPONSE SUBSERVICIES: ', response.data);
+                this.setState({ subServicies: response.data, selectedSubservice: response.data[0], loading: false });
+            })
     }
 
     render() {
@@ -98,8 +125,8 @@ export default class ModalNewAppointment extends React.Component {
                             <ActivityIndicator size={30} color={'#ffd101'} />
                         </View>
                         :
-                        <View style={{ width: '100%', height: '80%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-                            <View style={{ flex: 1, justifyContent: 'space-between', marginVertical: '5%' }}>
+                        <View style={{ width: '100%', height: '90%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
+                            <View style={{ flex: 1, justifyContent: 'space-between', marginVertical: 10 }}>
                                 <View style={styles.viewInput}>
                                     <TextInput
                                         placeholder={'Nume'}
@@ -156,7 +183,7 @@ export default class ModalNewAppointment extends React.Component {
                                         }>
                                         {servicies.map((service, index) => {
                                             return (
-                                                <Picker.Item key={index} label={service.toUpperCase()} value={service} />
+                                                <Picker.Item key={index} label={service.toUpperCase()} value={service.nume} />
                                             )
                                         })}
                                     </Picker>
@@ -167,12 +194,12 @@ export default class ModalNewAppointment extends React.Component {
                                         selectedValue={this.state.location}
                                         style={{ width: '100%', color: '#fff', marginLeft: 23 }}
                                         onValueChange={(itemValue, itemIndex) =>
-                                            this.setState({ location: itemValue })
+                                            this.setState({ location: { id: itemIndex + 1, nume: itemValue } })
                                         }>
                                         {this.state.locations ?
                                             this.state.locations.map((location, index) => {
                                                 return (
-                                                    <Picker.Item key={index} label={location.nume.toUpperCase()} value={location} />
+                                                    <Picker.Item key={index} label={location.nume.toUpperCase()} value={location.nume} />
                                                 )
                                             })
                                             :
@@ -219,12 +246,50 @@ export default class ModalNewAppointment extends React.Component {
                                         selectedValue={this.state.medic}
                                         style={{ width: '100%', color: '#fff', marginLeft: 23 }}
                                         onValueChange={(itemValue, itemIndex) =>
-                                            this.setState({ medic: itemValue })
+                                            this.setState({ medic: { id: itemIndex + 1, nume: itemValue } })
                                         }>
                                         {this.state.medics ?
                                             this.state.medics.map((medic, index) => {
                                                 return (
-                                                    <Picker.Item key={index} label={medic.nume.toUpperCase()} value={medic} />
+                                                    <Picker.Item key={index} label={medic.nume.toUpperCase()} value={medic.nume} />
+                                                )
+                                            })
+                                            :
+                                            null
+                                        }
+                                    </Picker>
+                                </View>
+
+                                <View style={styles.viewInput}>
+                                    <Picker
+                                        selectedValue={this.state.selectedService ? this.state.selectedService.value : null}
+                                        style={{ width: '100%', color: '#fff', marginLeft: 23 }}
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            this.setState({ selectedService: { id: itemIndex + 1, value: itemValue } }, () => this.getSubServicies())
+                                        }>
+                                        {this.state.servicies != null ?
+                                            this.state.servicies.map((service, index) => {
+                                                return (
+                                                    <Picker.Item key={index + 's'} label={service.nume.toUpperCase()} value={service.nume} />
+                                                )
+                                            })
+                                            :
+                                            null
+                                        }
+                                    </Picker>
+                                </View>
+
+                                <View style={styles.viewInput}>
+                                    <Picker
+                                        selectedValue={this.state.selectedSubservice ? this.state.selectedSubservice.value : null}
+                                        style={{ width: '100%', color: '#fff', marginLeft: 23 }}
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            this.setState({ selectedSubservice: { id: itemIndex + 1, value: itemValue } })
+                                        }>
+                                        {this.state.subServicies != null ?
+                                            this.state.subServicies.map((service, index) => {
+                                                return (
+                                                    <Picker.Item key={index + 'ss'} label={service.nume.toUpperCase()} value={service.nume} />
                                                 )
                                             })
                                             :
@@ -250,7 +315,7 @@ export default class ModalNewAppointment extends React.Component {
                         </View>
                     }
                 </View>
-            </Modal>
+            </Modal >
         )
     }
 }

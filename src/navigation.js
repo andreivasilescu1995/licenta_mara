@@ -95,8 +95,8 @@ const DrawerNavigationContent = (props) => {
                         </TouchableOpacity>
                         <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id, medic: props.creditentials.medic }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Contact" onPress={() => { props.navigation.navigate('Contact') }} />
                     </DrawerContentScrollView>
                     :
                     <DrawerContentScrollView {...props}>

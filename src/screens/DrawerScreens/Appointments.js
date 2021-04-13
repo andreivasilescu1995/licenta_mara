@@ -17,7 +17,7 @@ export default class Appointments extends React.Component {
         };
         this.refModalApp = React.createRef();
 
-        console.log('PROPS PROGRAMARI: ', props);
+        // console.log('PROPS PROGRAMARI: ', props);
     }
 
     componentDidMount() {
@@ -26,11 +26,11 @@ export default class Appointments extends React.Component {
     }
 
     getConsultations() {
-        if (this.props.route.params.medic === 1) {
-            api.post('getMedicConsultations', { id_medic: this.props.route.params.user_id })
+        if (this.props.route.params.medic !== 0) {
+            api.post('getMedicConsultations', { id_user: this.props.route.params.user_id })
                 .then(response => {
-                    console.log('programari: ', response.data);
-                    this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
+                    // console.log('programari: ', response.data);
+                    this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
         }
@@ -38,7 +38,7 @@ export default class Appointments extends React.Component {
             api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
                 .then(response => {
                     console.log('programari: ', response.data);
-                    this.setState({ appointments: response.data, loading: false }, () => this.forceUpdate());
+                    this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
         }
@@ -64,14 +64,14 @@ export default class Appointments extends React.Component {
                         this.props.route.params.medic === 1 ?
                             <ScrollView>
                                 {this.state.appointments.map((appointment, index) => {
-                                    console.log('consultatie: ', appointment)
                                     appointment.data = new Date(appointment.data)
                                     return (
-                                        <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
-                                            <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
-                                            <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
-                                            <Text style={{ color: '#fff' }}> {appointment.nume_pacient}</Text>
+                                        <View key={index} style={{ flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.25)', padding: 10, borderRadius: 10, marginBottom: 10 }}>
+                                            <Text style={{ fontWeight: 'bold', color: '#fff', textTransform: 'uppercase' }}>{appointment.tip_consultatie}</Text>
+                                            <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Locatie: </Text>{appointment.nume_locatie}</Text>
+                                            <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Data: </Text>{appointment.data.getDate()}/{appointment.data.getMonth()}/{appointment.data.getFullYear()}</Text>
+                                            <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Pacient: </Text> {appointment.nume_pacient}</Text>
+                                            <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Procedura: </Text> {appointment.nume_subserviciu}</Text>
                                         </View>
                                     )
                                 })}
@@ -84,11 +84,12 @@ export default class Appointments extends React.Component {
                                         {this.state.appointments.map((appointment, index) => {
                                             appointment.data = new Date(appointment.data)
                                             return (
-                                                <View key={index} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                                                    <Text style={{ color: '#fff' }}>{appointment.tip_consultatie}</Text>
-                                                    <Text style={{ color: '#fff' }}> {appointment.data.getDate()} / {appointment.data.getMonth()} / {appointment.data.getFullYear()}</Text>
-                                                    <Text style={{ color: '#fff' }}> {appointment.nume_locatie}</Text>
-                                                    <Text style={{ color: '#fff' }}> {appointment.nume_medic}</Text>
+                                                <View key={index} style={{ flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.25)', padding: 10, borderRadius: 10, marginBottom: 10 }}>
+                                                    <Text style={{ fontWeight: 'bold', color: '#fff', textTransform: 'uppercase' }}>{appointment.tip_consultatie}</Text>
+                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Locatie: </Text>{appointment.nume_locatie}</Text>
+                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Data: </Text>{appointment.data.getDate()}/{appointment.data.getMonth()}/{appointment.data.getFullYear()}</Text>
+                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Medic: </Text> {appointment.nume_medic}</Text>
+                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Procedura: </Text> {appointment.nume_subserviciu}</Text>
                                                 </View>
                                             )
                                         })}

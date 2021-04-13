@@ -10,7 +10,7 @@ import AntIcon from "react-native-vector-icons/EvilIcons";
 import Foundation from "react-native-vector-icons/Foundation";
 
 export const Login = (props) => {
-    const [username, setUsername] = React.useState('test_medic');
+    const [username, setUsername] = React.useState('medic_ma');
     const [password, setPassword] = React.useState('1234');
     const [progress, setProgress] = React.useState(0);
 
