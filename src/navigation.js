@@ -41,7 +41,8 @@ export default function AppNavigation() {
 
 const DrawerNav = (props) => {
     var creditentials = null;
-    if (props.route.params.username != undefined)
+    console.log('CREDS: ', props);
+    if (props.route.params)
         creditentials = { username: props.route.params.username, avatar: props.route.params.avatar, user_id: props.route.params.user_id, medic: props.route.params.medic };
 
     return (
@@ -64,8 +65,9 @@ const DrawerNav = (props) => {
 }
 
 const DrawerNavigationContent = (props) => {
-    const [loggedIn, setLoggedIn] = React.useState(props.creditentials != null ? true : false);
-    const [medic, setMedic] = React.useState(props.creditentials.medic == 1);
+    const user = props.creditentials ? true : false;
+    const [loggedIn, setLoggedIn] = React.useState(user);
+    const [medic, setMedic] = React.useState(user);
 
     console.log('PROPS DRAWER: ', props)
 

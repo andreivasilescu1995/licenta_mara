@@ -12,16 +12,16 @@ export default class Appointments extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            logged: props?.route?.params?.logged,
+            logged: props.route.params ? props.route.params.logged : false,
             appointments: [],
         };
         this.refModalApp = React.createRef();
 
-        // console.log('PROPS PROGRAMARI: ', props);
+        console.log('PROPS PROGRAMARI: ', props);
     }
 
     componentDidMount() {
-        if (this.props.route.params.user_id)
+        if (this.state.logged && this.props.route.params.user_id)
             this.getConsultations();
     }
 
@@ -60,7 +60,7 @@ export default class Appointments extends React.Component {
                     colors={['#3b5998', '#192f6a']}
                     style={{ flex: 1, padding: 10 }}>
 
-                    {this.props.route.params.logged === true ?
+                    {this.state.logged ?
                         this.props.route.params.medic === 1 ?
                             <ScrollView>
                                 {this.state.appointments.map((appointment, index) => {
@@ -121,7 +121,7 @@ export default class Appointments extends React.Component {
                                 </View>
                             </>
                         :
-                        <>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#fff', marginTop: '5%', marginBottom: 10 }}>Programari rapide</Text>
                             <TouchableOpacity
                                 onPress={() => {
@@ -146,7 +146,7 @@ export default class Appointments extends React.Component {
                                 style={{}}>
                                 <Icon name={'circle-with-plus'} color='#fff' size={35} />
                             </TouchableOpacity>
-                        </>
+                        </View>
                     }
                 </LinearGradient>
             </>

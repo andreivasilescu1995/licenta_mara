@@ -100,7 +100,7 @@ export const Login = (props) => {
                         </LinearGradient>
 
                         <TouchableOpacity
-                            onPress={() => { props.navigation.navigate('DrawerNav', {}) }}
+                            onPress={() => { props.navigation.navigate('DrawerNav') }}
                             style={{ position: 'absolute', bottom: 10, right: 10 }}>
                             <Text style={{ color: '#fff' }}>Ma autentific mai tarziu</Text>
                         </TouchableOpacity>
