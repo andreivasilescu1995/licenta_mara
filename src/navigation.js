@@ -41,7 +41,6 @@ export default function AppNavigation() {
 
 const DrawerNav = (props) => {
     var creditentials = null;
-    console.log('CREDS: ', props);
     if (props.route.params)
         creditentials = { username: props.route.params.username, avatar: props.route.params.avatar, user_id: props.route.params.user_id, medic: props.route.params.medic };
 
@@ -55,7 +54,6 @@ const DrawerNav = (props) => {
 
             <Drawer.Screen name={'Home'} component={Home} />
             <Drawer.Screen name={'Medics'} component={Medics} />
-            {/* <Stack.Screen name={'Appointments'}>{props => <Appointments {...props} />}</Stack.Screen> */}
             <Stack.Screen name={'Appointments'} component={Appointments} />
             <Stack.Screen name={'Servicies'} component={Servicies} />
             <Stack.Screen name={'Locations'} component={Locations} />
@@ -65,9 +63,11 @@ const DrawerNav = (props) => {
 }
 
 const DrawerNavigationContent = (props) => {
+    console.log('PROPS: ', props)
     const user = props.creditentials ? true : false;
+    const isMedic = props.creditentials?.medic !== 0 ? true : false;
     const [loggedIn, setLoggedIn] = React.useState(user);
-    const [medic, setMedic] = React.useState(user);
+    const [medic, setMedic] = React.useState(isMedic);
 
     console.log('PROPS DRAWER: ', props)
 
