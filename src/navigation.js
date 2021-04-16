@@ -13,6 +13,7 @@ import Appointments from './screens/DrawerScreens/Appointments';
 import Servicies from './screens/DrawerScreens/Servicies';
 import Locations from './screens/DrawerScreens/Locations';
 import Contact from './screens/DrawerScreens/Contact';
+import Chat from './screens/DrawerScreens/Chat';
 
 import { styles } from './style';
 import User from '../assets/img/user.svg';
@@ -58,18 +59,16 @@ const DrawerNav = (props) => {
             <Stack.Screen name={'Servicies'} component={Servicies} />
             <Stack.Screen name={'Locations'} component={Locations} />
             <Stack.Screen name={'Contact'} component={Contact} />
+            <Stack.Screen name={'Chat'} component={Chat} />
         </Drawer.Navigator>
     )
 }
 
 const DrawerNavigationContent = (props) => {
-    console.log('PROPS: ', props)
     const user = props.creditentials ? true : false;
     const isMedic = props.creditentials?.medic !== 0 ? true : false;
     const [loggedIn, setLoggedIn] = React.useState(user);
     const [medic, setMedic] = React.useState(isMedic);
-
-    console.log('PROPS DRAWER: ', props)
 
     return (
         <>
@@ -95,7 +94,7 @@ const DrawerNavigationContent = (props) => {
                             style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
                             <Text style={{ color: '#fff' }}>Logout</Text>
                         </TouchableOpacity>
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { props.navigation.navigate('Chat') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id, medic: props.creditentials.medic }) }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
@@ -107,7 +106,7 @@ const DrawerNavigationContent = (props) => {
                             style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
                             <Text style={{ color: '#fff' }}>Logout</Text>
                         </TouchableOpacity>
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { props.navigation.navigate('Chat') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id }) }} />
