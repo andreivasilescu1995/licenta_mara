@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, FlatList, ActivityIndicator } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import emitter from 'tiny-emitter/instance';
+import { Picker } from '@react-native-picker/picker';
 
 import Header from '../../components/Header';
 import api from '../../api';
 
 import io from "socket.io-client";
-let endpoint = "http://localhost:5000";
+let endpoint = "http://localhost:5000/private";
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -18,6 +18,7 @@ export default class Chat extends React.Component {
             message: null,
         }
         this.socket = io.connect(endpoint);
+        this.sid = null;
         this.refMessages = React.createRef();
 
         console.log('PROPS CHAT: ', props);
@@ -27,23 +28,16 @@ export default class Chat extends React.Component {
         this.socket.emit('username', this.props.route.params.creditentials.username);
 
         this.socket.on('send_user_sid', sid => {
-            console.log('RECEIVED NEW SID: ', sid['sid']);
+            // console.log('RECEIVED NEW SID: ', sid['sid']);
+            this.sid = sid['sid'].toString();
             api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
                 .then(response => {
                     console.log('RESPONSE UPDATE SID: ', response);
                 })
         })
 
-        this.socket.on("new_message", msg => {
-            console.log('MESAJ NOU: ', msg)
-            let messages = this.state.messages;
-            messages.push({ sender_id: msg.sender_id, text: msg.text });
-            this.setState({ messages: messages });
-            this.refMessages.current.scrollToEnd();
-        });
-
         this.socket.on("new_private_message", msg => {
-            console.log('MESAJ PRIVAT: ', msg)
+            console.log('AM PRIMIT MESAJ: ', msg, typeof (this.sid));
             let messages = this.state.messages;
             messages.push({ sender_id: msg.sender_id, text: msg.text });
             this.setState({ messages: messages });
@@ -52,15 +46,17 @@ export default class Chat extends React.Component {
     }
 
     componentWillUnmount() {
-        emitter.off('new_message');
         this.socket.disconnect();
     }
 
     sendMessage() {
-        console.log('TRIMIT MESAJUL: ', this.state.message, ' CATRE ', this.state.selectedUser);
+        console.log('TRIMIT MESAJUL: ', this.state.message, ' CATRE ', this.state.selectedUser.username);
         if (this.state.message) {
+            let messages = this.state.messages;
+            messages.push({ sender_id: '', text: this.state.message });
+            console.log('USER SELECTAT: ', this.state.selectedUser)
             this.socket.emit('private_message', { 'username': this.state.selectedUser.username, 'message': this.state.message });
-            this.setState({ message: null });
+            this.setState({ message: null, messages: messages });
         }
     };
 
@@ -72,7 +68,7 @@ export default class Chat extends React.Component {
                     title={'Chat'}
                     chat={true}
                     user_id={this.props.route?.params?.creditentials.user_id}
-                    onChangeUser={(user) => {this.setState({ selectedUser: user }); console.log('USER SELECTAT: ', user)}}
+                    onChangeUser={(user) => { this.setState({ selectedUser: user }); console.log('USER SELECTAT: ', user) }}
                 />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
@@ -88,7 +84,7 @@ export default class Chat extends React.Component {
                             renderItem={message => {
                                 // console.log('MESAJ DE RANDAT: ', message)
                                 return (
-                                    <View key={message.index} style={{ alignSelf: message.item.sender_id !== this.socket.id ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id !== this.socket.id ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
+                                    <View key={message.index} style={{ alignSelf: message.item.sender_id !== this.sid ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id !== this.sid ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
                                         <Text selectable={true} selectionColor='orange' style={{ flexWrap: 'wrap', color: '#fff' }}>{message.item.text}</Text>
                                     </View>
                                 )
