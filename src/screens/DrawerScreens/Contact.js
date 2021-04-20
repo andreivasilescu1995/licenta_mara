@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import email from 'react-native-email'
 
 import api from '../../api';
-import { Header } from '../../components/Header';
+import Header from '../../components/Header';
 
 export default class Medics extends React.Component {
     constructor(props) {

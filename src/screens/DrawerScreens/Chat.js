@@ -3,9 +3,10 @@ import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, F
 import LinearGradient from 'react-native-linear-gradient';
 import emitter from 'tiny-emitter/instance';
 
-import { Header } from '../../components/Header';
-import io from "socket.io-client";
+import Header from '../../components/Header';
+import api from '../../api';
 
+import io from "socket.io-client";
 let endpoint = "http://localhost:5000";
 
 export default class Chat extends React.Component {
@@ -23,8 +24,26 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
+        this.socket.emit('username', this.props.route.params.creditentials.username);
+
+        this.socket.on('send_user_sid', sid => {
+            console.log('RECEIVED NEW SID: ', sid['sid']);
+            api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
+                .then(response => {
+                    console.log('RESPONSE UPDATE SID: ', response);
+                })
+        })
+
         this.socket.on("new_message", msg => {
-            // console.log('MESAJ NOU: ', msg)
+            console.log('MESAJ NOU: ', msg)
+            let messages = this.state.messages;
+            messages.push({ sender_id: msg.sender_id, text: msg.text });
+            this.setState({ messages: messages });
+            this.refMessages.current.scrollToEnd();
+        });
+
+        this.socket.on("new_private_message", msg => {
+            console.log('MESAJ PRIVAT: ', msg)
             let messages = this.state.messages;
             messages.push({ sender_id: msg.sender_id, text: msg.text });
             this.setState({ messages: messages });
@@ -38,8 +57,9 @@ export default class Chat extends React.Component {
     }
 
     sendMessage() {
+        console.log('TRIMIT MESAJUL: ', this.state.message, ' CATRE ', this.state.selectedUser);
         if (this.state.message) {
-            console.log('SOCKET: ', this.socket.emit("message", { sender_id: this.socket.id, text: this.state.message }));
+            this.socket.emit('private_message', { 'username': this.state.selectedUser.username, 'message': this.state.message });
             this.setState({ message: null });
         }
     };
@@ -47,7 +67,13 @@ export default class Chat extends React.Component {
     render() {
         return (
             <>
-                <Header navigation={this.props.navigation} />
+                <Header
+                    navigation={this.props.navigation}
+                    title={'Chat'}
+                    chat={true}
+                    user_id={this.props.route?.params?.creditentials.user_id}
+                    onChangeUser={(user) => {this.setState({ selectedUser: user }); console.log('USER SELECTAT: ', user)}}
+                />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}

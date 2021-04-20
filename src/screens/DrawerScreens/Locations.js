@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator } fr
 import LinearGradient from 'react-native-linear-gradient';
 
 import api from '../../api';
-import { Header } from '../../components/Header';
+import Header from '../../components/Header';
 import ModalLocation from './ModalLocation';
 
 export default class Locations extends React.Component {
