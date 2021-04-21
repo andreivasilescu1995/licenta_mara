@@ -41,8 +41,9 @@ export default class Header extends React.Component {
                             style={{ width: '100%', color: '#fff', marginLeft: 20, borderWidth: 1, borderColor: 'red', padding: 10 }}
                             onValueChange={(itemValue, itemIndex) => {
                                 const index = this.state.users.map(e => e.username).indexOf(itemValue);
-                                this.setState({ selectedUser: { id: this.state.users[index].id, username: itemValue, sid: this.state.users[index].sid } });
-                                this.props.onChangeUser(this.state.selectedUser);
+                                this.setState({ selectedUser: { id: this.state.users[index].id, username: itemValue, sid: this.state.users[index].sid } }, () => {
+                                    this.props.onChangeUser(this.state.selectedUser);
+                                });
                             }}>
                             {this.state.users ?
                                 this.state.users.map((user, index) => {

@@ -16,6 +16,7 @@ export default class Chat extends React.Component {
             loading: true,
             messages: [],
             message: null,
+            selectedUser: null,
         }
         this.socket = io.connect(endpoint);
         this.sid = null;
@@ -33,6 +34,7 @@ export default class Chat extends React.Component {
             api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
                 .then(response => {
                     console.log('RESPONSE UPDATE SID: ', response);
+                    this.sid = sid['sid']
                 })
         })
 
@@ -49,12 +51,19 @@ export default class Chat extends React.Component {
         this.socket.disconnect();
     }
 
+    getConversation(sender_user, receiver_user) {
+        api.post('getConversation', { sender_user: sender_user, receiver_user: receiver_user })
+            .then(result => {
+                console.log('RESULT GET CONVERSATION: ', result.data);
+                this.setState({ messages: result.data });
+            })
+    }
+
     sendMessage() {
-        console.log('TRIMIT MESAJUL: ', this.state.message, ' CATRE ', this.state.selectedUser.username);
+        // console.log('TRIMIT MESAJUL: ', this.state.message, ' CATRE ', this.state.selectedUser.username);
         if (this.state.message) {
             let messages = this.state.messages;
-            messages.push({ sender_id: '', text: this.state.message });
-            console.log('USER SELECTAT: ', this.state.selectedUser)
+            messages.push({ sender_id: this.sid, text: this.state.message });
             this.socket.emit('private_message', { 'username': this.state.selectedUser.username, 'message': this.state.message });
             this.setState({ message: null, messages: messages });
         }
@@ -68,7 +77,12 @@ export default class Chat extends React.Component {
                     title={'Chat'}
                     chat={true}
                     user_id={this.props.route?.params?.creditentials.user_id}
-                    onChangeUser={(user) => { this.setState({ selectedUser: user }); console.log('USER SELECTAT: ', user) }}
+                    onChangeUser={(user) => {
+                        this.setState({ selectedUser: user }, () => {
+                            this.getConversation(this.props.route.params.creditentials.username, this.state.selectedUser.username);
+                            console.log('SID UL MEU: ', this.sid)
+                        })
+                    }}
                 />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
@@ -84,7 +98,7 @@ export default class Chat extends React.Component {
                             renderItem={message => {
                                 // console.log('MESAJ DE RANDAT: ', message)
                                 return (
-                                    <View key={message.index} style={{ alignSelf: message.item.sender_id !== this.sid ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id !== this.sid ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
+                                    <View style={{ alignSelf: message.item.sender_id == this.sid ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id == this.sid ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
                                         <Text selectable={true} selectionColor='orange' style={{ flexWrap: 'wrap', color: '#fff' }}>{message.item.text}</Text>
                                     </View>
                                 )
