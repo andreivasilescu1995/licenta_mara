@@ -1,6 +1,8 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TextInput, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StatusBar, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 import * as Progress from 'react-native-progress';
 
 import { styles } from '../style';
@@ -13,14 +15,25 @@ export const Login = (props) => {
     const [username, setUsername] = React.useState('medic_ma');
     const [password, setPassword] = React.useState('1234');
     const [progress, setProgress] = React.useState(0);
+    const [qr, setQr] = React.useState(false);
 
-    const checkLogin = () => {
+    const checkLogin = (username, password) => {
         setProgress('loading');
         api.post('login', { username, password })
             .then(result => {
                 console.log(result)
                 if (result.data[0]) {
-                    props.navigation.navigate('DrawerNav', { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') })
+                    if (result.data[1] != 0)
+                        props.navigation.navigate('DrawerNav', {
+                            screen: 'Appointments',
+                            params: { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') }
+                        })
+                    else
+                        props.navigation.navigate('DrawerNav', {
+                            screen: 'Servicies',
+                            params: { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') }
+                        })
+
                 }
                 else
                     if (result.data == false)
@@ -48,7 +61,7 @@ export const Login = (props) => {
 
                 {progress == 0 ?
                     <>
-                        <Text style={styles.logo}>LOGO + mesaj de bun venit</Text>
+                        <Image style={styles.logo} source={require('../../assets/img/logo.png')} />
 
                         <View style={styles.viewInput}>
                             <TextInput
@@ -80,8 +93,22 @@ export const Login = (props) => {
                             style={styles.loginButton}>
                             <TouchableOpacity
                                 style={{}}
-                                onPress={() => { checkLogin() }}>
+                                onPress={() => { checkLogin(username, password) }}>
                                 <Text style={{ color: '#fff' }}>Autentificare</Text>
+                            </TouchableOpacity>
+                        </LinearGradient>
+
+                        <LinearGradient
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}
+                            colors={
+                                ['#3CDE87', '#C49C0F']
+                            }
+                            style={[styles.loginButton, { paddingHorizontal: 20, marginTop: 20 }]}>
+                            <TouchableOpacity
+                                style={{}}
+                                onPress={() => { setQr(true); setProgress('qr') }}>
+                                <Text style={{ color: '#fff' }}>QR Login</Text>
                             </TouchableOpacity>
                         </LinearGradient>
 
@@ -106,9 +133,22 @@ export const Login = (props) => {
                         </TouchableOpacity>
                     </>
                     :
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
-                    </View>
+                    progress == 'qr' ?
+                        <QRCodeScanner
+                            showMarker={true}
+                            onRead={data => {
+                                // console.log('DATA QR: ', JSON.parse(data.data))
+                                let user = JSON.parse(data.data);
+                                checkLogin(user.username, user.password);
+                            }}
+                            flashMode={RNCamera.Constants.FlashMode.auto}
+                            topContent={<Text style={{ color: '#fff', paddingHorizontal: 20, paddingVertical: 5, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>Scanati codul pentru autentificare</Text>}
+                            bottomContent={<TouchableOpacity onPress={() => { setProgress(0) }}><Text style={{ color: '#fff', paddingHorizontal: 20, paddingVertical: 5, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginTop: 10 }}>Inapoi</Text></TouchableOpacity>}
+                        />
+                        :
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <Progress.CircleSnail color={['red', 'green', 'blue']} size={70} />
+                        </View>
                 }
             </LinearGradient >
         </>

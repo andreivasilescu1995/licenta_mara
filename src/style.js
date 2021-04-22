@@ -8,8 +8,9 @@ export const styles = StyleSheet.create({
         height: '100%',
     },
     logo: {
-        marginVertical: '30%',
-        color: '#fff',
+        marginVertical: '10%',
+        resizeMode: 'contain',
+        maxHeight: '30%'
     },
     row: {
         flexDirection: 'row',

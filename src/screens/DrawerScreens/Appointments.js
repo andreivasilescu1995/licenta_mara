@@ -12,7 +12,7 @@ export default class Appointments extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            logged: props.route.params ? props.route.params.logged : false,
+            logged: props.route.params?.logged ? true : false,
             appointments: [],
         };
         this.refModalApp = React.createRef();
@@ -21,8 +21,8 @@ export default class Appointments extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.logged && this.props.route.params.user_id)
-            this.getConsultations();
+        // if (this.state.logged && this.props.route.params.user_id)
+        //     this.getConsultations();
     }
 
     getConsultations() {
@@ -61,7 +61,7 @@ export default class Appointments extends React.Component {
                     style={{ flex: 1, padding: 10 }}>
 
                     {this.state.logged ?
-                        this.props.route.params.medic === 1 ?
+                        this.props.route.params.medic != 0 ?
                             <ScrollView>
                                 {this.state.appointments.map((appointment, index) => {
                                     appointment.data = new Date(appointment.data)

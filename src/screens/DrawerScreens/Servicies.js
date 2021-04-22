@@ -29,7 +29,7 @@ export default class Servicies extends React.Component {
         return (
             <>
                 <ModalSubservice ref={this.refModal} />
-                <Header navigation={this.props.navigation} />
+                <Header navigation={this.props.navigation} title='Servicii' />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}

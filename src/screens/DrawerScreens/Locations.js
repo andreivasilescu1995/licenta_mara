@@ -29,7 +29,7 @@ export default class Locations extends React.Component {
         return (
             <>
                 <ModalLocation ref={this.refModal} />
-                <Header navigation={this.props.navigation} />
+                <Header navigation={this.props.navigation} title={'Locatii'} />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}

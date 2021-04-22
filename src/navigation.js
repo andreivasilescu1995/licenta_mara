@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 
 import { Login } from './screens/Login';
-import { Home } from './screens/DrawerScreens/Home';
 import { Register } from './screens/Register';
 import Medics from './screens/DrawerScreens/Medics';
 import Appointments from './screens/DrawerScreens/Appointments';
@@ -47,19 +46,17 @@ const DrawerNav = (props) => {
 
     return (
         <Drawer.Navigator
-            initialRouteName={'Home'}
             drawerStyle={{ backgroundColor: '#232323' }}
             drawerContent={(props) => <DrawerNavigationContent {...props} creditentials={creditentials} />}
             drawerType={'slide'}
             edgeWidth={70}>
 
-            <Drawer.Screen name={'Home'} component={Home} />
             <Drawer.Screen name={'Medics'} component={Medics} />
-            <Stack.Screen name={'Appointments'} component={Appointments} />
-            <Stack.Screen name={'Servicies'} component={Servicies} />
-            <Stack.Screen name={'Locations'} component={Locations} />
-            <Stack.Screen name={'Contact'} component={Contact} />
-            <Stack.Screen name={'Chat'} component={Chat} />
+            <Drawer.Screen name={'Appointments'} component={Appointments} />
+            <Drawer.Screen name={'Servicies'} component={Servicies} />
+            <Drawer.Screen name={'Locations'} component={Locations} />
+            <Drawer.Screen name={'Contact'} component={Contact} />
+            <Drawer.Screen name={'Chat'} component={Chat} />
         </Drawer.Navigator>
     )
 }
@@ -111,7 +108,6 @@ const DrawerNavigationContent = (props) => {
                         <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id }) }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Scaneaza cod QR" onPress={() => { }} />
                     </DrawerContentScrollView>
                 :
                 <DrawerContentScrollView {...props}>
@@ -120,7 +116,7 @@ const DrawerNavigationContent = (props) => {
                         style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20 }}>
                         <Text style={{ color: '#fff' }}>Intra in cont</Text>
                     </TouchableOpacity>
-                    <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments') }} />
+                    <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: false }) }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                     <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />

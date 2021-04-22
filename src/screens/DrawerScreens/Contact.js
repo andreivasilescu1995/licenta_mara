@@ -28,7 +28,7 @@ export default class Medics extends React.Component {
     render() {
         return (
             <>
-                <Header navigation={this.props.navigation} />
+                <Header navigation={this.props.navigation} title={'Contact'} />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}

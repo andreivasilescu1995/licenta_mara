@@ -2,6 +2,7 @@
   package="com.licenta">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
       android:name=".MainApplication"
@@ -14,7 +15,7 @@
       <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyDFIADAwwiGpbLwbrIlh6u7CHgqC2YCDo4"/>
-
+        
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
       <activity
