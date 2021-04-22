@@ -41,7 +41,7 @@ export default class ModalNewAppointment extends React.Component {
     toggleModal = () => { this.setState({ showModal: !this.state.showModal }) };
 
     sendAppointment() {
-        console.log('DATE:', this.state);
+        // console.log('DATE:', this.state);
         const data = this.state;
         api.post('createConsultation',
             {
@@ -70,7 +70,7 @@ export default class ModalNewAppointment extends React.Component {
     getMedics() {
         api.post('getMedics', {})
             .then(response => {
-                console.log('MEDICI: ', response);
+                // console.log('MEDICI: ', response);
                 this.setState({ medics: response.data, medic: response.data[0], loading: false });
             })
             .finally(() => this.setState({ loading: false }));
@@ -79,7 +79,7 @@ export default class ModalNewAppointment extends React.Component {
     getLocations() {
         api.post('getLocations', {})
             .then(response => {
-                console.log('Locatii: ', response);
+                // console.log('Locatii: ', response);
                 this.setState({ locations: response.data, location: response.data[0], loading: false });
             })
             .finally(() => this.setState({ loading: false }));
@@ -88,7 +88,7 @@ export default class ModalNewAppointment extends React.Component {
     getServicies() {
         api.post('getServicies', {})
             .then(response => {
-                console.log('Servicii: ', response);
+                // console.log('Servicii: ', response);
                 this.setState({ servicies: response.data, selectedService: response.data[0], loading: false }, () => {
                     this.getSubServicies();
                 });
@@ -99,7 +99,7 @@ export default class ModalNewAppointment extends React.Component {
     getSubServicies() {
         api.post('getSubService', { id: this.state.selectedService.id })
             .then(response => {
-                console.log('RESPONSE SUBSERVICIES: ', response.data);
+                // console.log('RESPONSE SUBSERVICIES: ', response.data);
                 this.setState({ subServicies: response.data, selectedSubservice: response.data[0], loading: false });
             })
     }

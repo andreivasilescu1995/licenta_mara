@@ -16,7 +16,7 @@ export default class ModalNewAppointment extends React.Component {
     setId(id) {
         api.post('getSubService', { id: id })
             .then(response => {
-                console.log('RESPONSE SUBSERVICIES: ', response.data);
+                // console.log('RESPONSE SUBSERVICIES: ', response.data);
                 this.setState({ subservicies: response.data })
             })
     }

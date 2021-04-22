@@ -39,7 +39,7 @@ export default class Chat extends React.Component {
         })
 
         this.socket.on("new_private_message", msg => {
-            console.log('AM PRIMIT MESAJ: ', msg, typeof (this.sid));
+            // console.log('AM PRIMIT MESAJ: ', msg, typeof (this.sid));
             let messages = this.state.messages;
             messages.push({ sender_id: msg.sender_id, text: msg.text });
             this.setState({ messages: messages });
@@ -80,7 +80,6 @@ export default class Chat extends React.Component {
                     onChangeUser={(user) => {
                         this.setState({ selectedUser: user }, () => {
                             this.getConversation(this.props.route.params.creditentials.username, this.state.selectedUser.username);
-                            console.log('SID UL MEU: ', this.sid)
                         })
                     }}
                 />
@@ -96,7 +95,7 @@ export default class Chat extends React.Component {
                             contentContainerStyle={{ padding: 10, paddingBottom: 60 }}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={message => {
-                                // console.log('MESAJ DE RANDAT: ', message)
+                                console.log('MESAJ DE RANDAT: ', message)
                                 return (
                                     <View style={{ alignSelf: message.item.sender_id == this.sid ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id == this.sid ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
                                         <Text selectable={true} selectionColor='orange' style={{ flexWrap: 'wrap', color: '#fff' }}>{message.item.text}</Text>

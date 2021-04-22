@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import ModalNewAppointment from './ModalNewAppointment';
-import { Header } from '../../components/Header';
+import Header from '../../components/Header';
 import api from '../../api';
 
 import Icon from "react-native-vector-icons/Entypo";
@@ -12,30 +12,30 @@ export default class Appointments extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            logged: props.route.params?.logged ? true : false,
+            logged: props.route.params?.logged ? props.route.params.logged : true,
             appointments: [],
-        };
+        }
         this.refModalApp = React.createRef();
 
-        console.log('PROPS PROGRAMARI: ', props);
+        // console.log('PROPS PROGRAMARI: ', props);
     }
 
     componentDidMount() {
-        // if (this.state.logged && this.props.route.params.user_id)
-        //     this.getConsultations();
+        if (this.state.logged && this.props.creditentials?.user_id)
+            this.getConsultations();
     }
 
     getConsultations() {
-        if (this.props.route.params.medic && this.props.route.params.medic !== 0) {
-            api.post('getMedicConsultations', { id_user: this.props.route.params.user_id })
+        if (this.props.creditentials.medic && this.props.creditentials.medic !== 0) {
+            api.post('getMedicConsultations', { id_user: this.props.creditentials.user_id })
                 .then(response => {
-                    console.log('programari: ', response.data);
+                    // console.log('programari: ', response.data);
                     this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
         }
         else {
-            api.post('getConsultations', { id_pacient: this.props.route.params.user_id })
+            api.post('getConsultations', { id_pacient: this.props.creditentials.user_id })
                 .then(response => {
                     // console.log('programari: ', response.data);
                     this.setState({ appointments: response.data, loading: false });
@@ -54,14 +54,14 @@ export default class Appointments extends React.Component {
     render() {
         return (
             <>
-                <Header navigation={this.props.navigation} />
+                <Header navigation={this.props.navigation} title='Programari' />
                 <LinearGradient
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     colors={['#3b5998', '#192f6a']}
                     style={{ flex: 1, padding: 10 }}>
 
                     {this.state.logged ?
-                        this.props.route.params.medic != 0 ?
+                        this.props.creditentials?.medic != 0 ?
                             <ScrollView>
                                 {this.state.appointments.map((appointment, index) => {
                                     appointment.data = new Date(appointment.data)
@@ -78,7 +78,7 @@ export default class Appointments extends React.Component {
                             </ScrollView>
                             :
                             <>
-                                <ModalNewAppointment ref={this.refModalApp} onRefresh={() => { this.refreshConsultations() }} user_id={this.props.route.params.user_id} />
+                                <ModalNewAppointment ref={this.refModalApp} onRefresh={() => { this.refreshConsultations() }} user_id={this.props.creditentials.user_id} />
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                     <ScrollView>
                                         {this.state.appointments.map((appointment, index) => {

@@ -17,30 +17,32 @@ export const Login = (props) => {
     const [progress, setProgress] = React.useState(0);
     const [qr, setQr] = React.useState(false);
 
-    const checkLogin = (username, password) => {
+    const checkLogin = (user, pwd) => {
         setProgress('loading');
-        api.post('login', { username, password })
+        api.post('login', { user, pwd })
             .then(result => {
-                console.log(result)
+                // console.log('RESPONSE LOGIN: ', result)
                 if (result.data[0]) {
-                    if (result.data[1] != 0)
+                    if (result.data[1] != 0) {
                         props.navigation.navigate('DrawerNav', {
                             screen: 'Appointments',
-                            params: { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') }
+                            creditentials: { username: user, user_id: result.data[0], medic: result.data[1] }
                         })
-                    else
+                    }
+                    else {
                         props.navigation.navigate('DrawerNav', {
                             screen: 'Servicies',
-                            params: { username: username, user_id: result.data[0], medic: result.data[1], avatar: require('../../assets/img/userLogged.svg') }
+                            creditentials: { username: user, user_id: result.data[0], medic: result.data[1] }
                         })
-
+                    }
                 }
                 else
                     if (result.data == false)
                         alert('Nume sau parola gresite!');
             })
             .catch(error => {
-                alert('Eroare autentificare: ', JSON.stringify(error.message));
+                console.error(error);
+                // alert('Eroare autentificare: ', JSON.stringify(error.message));
             })
             .finally(() => {
                 setProgress(0);

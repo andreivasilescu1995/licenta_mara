@@ -12,13 +12,15 @@ export default class Header extends React.Component {
             users: null,
             selectedUser: null,
         }
+
+        // console.log('PROPS HEADER: ', props)
     }
 
     componentDidMount() {
         if (this.props.chat) {
             api.post('/getUsers', { id_user: this.props.user_id })
                 .then(response => {
-                    console.log('RESPONSE USERS: ', response);
+                    // console.log('RESPONSE USERS: ', response);
                     this.setState({ users: response.data, selectedUser: response.data[0] }, () => this.props.onChangeUser(this.state.selectedUser));
                 });
         }

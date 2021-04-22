@@ -40,9 +40,8 @@ export default function AppNavigation() {
 }
 
 const DrawerNav = (props) => {
-    var creditentials = null;
-    if (props.route.params)
-        creditentials = { username: props.route.params.username, avatar: props.route.params.avatar, user_id: props.route.params.user_id, medic: props.route.params.medic };
+    // console.log('PROPS DRAWER NAV: ', props)
+    let creditentials = props.route.params?.creditentials;
 
     return (
         <Drawer.Navigator
@@ -52,7 +51,8 @@ const DrawerNav = (props) => {
             edgeWidth={70}>
 
             <Drawer.Screen name={'Medics'} component={Medics} />
-            <Drawer.Screen name={'Appointments'} component={Appointments} />
+            {/* <Drawer.Screen name={'Appointments'} component={Appointments} /> */}
+            <Drawer.Screen name={'Appointments'}>{props => <Appointments {...props} creditentials={creditentials} />}</Drawer.Screen>
             <Drawer.Screen name={'Servicies'} component={Servicies} />
             <Drawer.Screen name={'Locations'} component={Locations} />
             <Drawer.Screen name={'Contact'} component={Contact} />
@@ -62,8 +62,9 @@ const DrawerNav = (props) => {
 }
 
 const DrawerNavigationContent = (props) => {
+    // console.log('PROPS NAV CONTENT: ', props)
     const user = props.creditentials ? true : false;
-    const isMedic = props.creditentials?.medic !== 0 ? true : false;
+    const isMedic = props.creditentials?.medic != 0 ? true : false;
     const [loggedIn, setLoggedIn] = React.useState(user);
     const [medic, setMedic] = React.useState(isMedic);
 
@@ -91,8 +92,8 @@ const DrawerNavigationContent = (props) => {
                             style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
                             <Text style={{ color: '#fff' }}>Logout</Text>
                         </TouchableOpacity>
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { props.navigation.navigate('Chat', {creditentials: props.creditentials}) }} />
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id, medic: props.creditentials.medic }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Chat pacienti" onPress={() => { props.navigation.navigate('Chat', { creditentials: props.creditentials }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { creditentials: props.creditentials }) }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
                     </DrawerContentScrollView>
@@ -103,10 +104,10 @@ const DrawerNavigationContent = (props) => {
                             style={{ width: '50%', justifyContent: 'center', alignItems: 'center', padding: 10, marginLeft: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>
                             <Text style={{ color: '#fff' }}>Logout</Text>
                         </TouchableOpacity>
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { props.navigation.navigate('Chat', {creditentials: props.creditentials}) }} />
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies') }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Intreaba un medic" onPress={() => { props.navigation.navigate('Chat', { creditentials: props.creditentials }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Tarife" onPress={() => { props.navigation.navigate('Servicies', { creditentials: props.creditentials }) }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Medici" onPress={() => { props.navigation.navigate('Medics') }} />
-                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { logged: true, user_id: props.creditentials.user_id }) }} />
+                        <DrawerItem labelStyle={styles.drawerLabel} label="Programari" onPress={() => { props.navigation.navigate('Appointments', { creditentials: props.creditentials }) }} />
                         <DrawerItem labelStyle={styles.drawerLabel} label="Locatii" onPress={() => { props.navigation.navigate('Locations') }} />
                     </DrawerContentScrollView>
                 :

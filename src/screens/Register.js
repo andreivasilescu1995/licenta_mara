@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import DatePicker from 'react-native-datepicker';
@@ -17,7 +17,7 @@ import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const Register = (props) => {
     const [username, setUsername] = React.useState('test1');
-    const [password, setPassword] = React.useState('test1');
+    const [password, setPassword] = React.useState('1234');
     const [name, setName] = React.useState('test1');
     const [email, setEmail] = React.useState('test1');
     const [cnp, setCnp] = React.useState('1234567891234');
@@ -111,7 +111,7 @@ export const Register = (props) => {
             style={[styles.container]}>
 
             <ScrollView ref={refScrollView} contentContainerStyle={{ alignItems: 'center' }}>
-                <Text style={styles.logo}>LOGO + mesaj de bun venit</Text>
+                <Image source={require('../../assets/img/logo.png')} style={styles.logo} />
 
                 <TouchableOpacity
                     style={{ position: 'absolute', top: 15, left: 15 }}
