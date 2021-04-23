@@ -139,9 +139,14 @@ export const Login = (props) => {
                         <QRCodeScanner
                             showMarker={true}
                             onRead={data => {
-                                // console.log('DATA QR: ', JSON.parse(data.data))
-                                let user = JSON.parse(data.data);
-                                checkLogin(user.username, user.password);
+                                try {
+                                    console.log('DATA QR: ', JSON.parse(data.data))
+                                    let user = JSON.parse(data.data);
+                                    checkLogin(user.username, user.password);
+                                } catch (error) {
+                                    alert('COD INVALID');
+                                    setProgress(0);
+                                }
                             }}
                             flashMode={RNCamera.Constants.FlashMode.auto}
                             topContent={<Text style={{ color: '#fff', paddingHorizontal: 20, paddingVertical: 5, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginBottom: 10 }}>Scanati codul pentru autentificare</Text>}

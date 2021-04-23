@@ -22,7 +22,7 @@ export default class Chat extends React.Component {
         this.sid = null;
         this.refMessages = React.createRef();
 
-        console.log('PROPS CHAT: ', props);
+        // console.log('PROPS CHAT: ', props);
     }
 
     componentDidMount() {
@@ -32,11 +32,6 @@ export default class Chat extends React.Component {
             console.log('RECEIVED NEW SID: ', sid['sid']);
             this.sid = sid['sid'].toString();
             this.getConversation(this.props.route.params.creditentials.username, this.state.selectedUser.username);
-            // api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
-            //     .then(response => {
-            //         console.log('RESPONSE UPDATE SID: ', response);
-            //         this.sid = sid['sid']
-            //     })
         })
 
         this.socket.on("new_private_message", msg => {
@@ -56,7 +51,7 @@ export default class Chat extends React.Component {
         if (this.sid)
             api.post('getConversation', { sender_user: sender_user, receiver_user: receiver_user })
                 .then(result => {
-                    console.log('RESULT GET CONVERSATION: ', result.data);
+                    // console.log('RESULT GET CONVERSATION: ', result.data);
                     this.setState({ messages: result.data });
                 })
     }
