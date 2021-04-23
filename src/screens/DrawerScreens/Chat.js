@@ -29,13 +29,14 @@ export default class Chat extends React.Component {
         this.socket.emit('username', this.props.route.params.creditentials.username);
 
         this.socket.on('send_user_sid', sid => {
-            // console.log('RECEIVED NEW SID: ', sid['sid']);
+            console.log('RECEIVED NEW SID: ', sid['sid']);
             this.sid = sid['sid'].toString();
-            api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
-                .then(response => {
-                    console.log('RESPONSE UPDATE SID: ', response);
-                    this.sid = sid['sid']
-                })
+            this.getConversation(this.props.route.params.creditentials.username, this.state.selectedUser.username);
+            // api.post('/updateSid', { id_user: this.props.route.params.creditentials.user_id, sid: sid['sid'] })
+            //     .then(response => {
+            //         console.log('RESPONSE UPDATE SID: ', response);
+            //         this.sid = sid['sid']
+            //     })
         })
 
         this.socket.on("new_private_message", msg => {
@@ -52,11 +53,12 @@ export default class Chat extends React.Component {
     }
 
     getConversation(sender_user, receiver_user) {
-        api.post('getConversation', { sender_user: sender_user, receiver_user: receiver_user })
-            .then(result => {
-                console.log('RESULT GET CONVERSATION: ', result.data);
-                this.setState({ messages: result.data });
-            })
+        if (this.sid)
+            api.post('getConversation', { sender_user: sender_user, receiver_user: receiver_user })
+                .then(result => {
+                    console.log('RESULT GET CONVERSATION: ', result.data);
+                    this.setState({ messages: result.data });
+                })
     }
 
     sendMessage() {
@@ -95,7 +97,7 @@ export default class Chat extends React.Component {
                             contentContainerStyle={{ padding: 10, paddingBottom: 60 }}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={message => {
-                                console.log('MESAJ DE RANDAT: ', message)
+                                // console.log('MESAJ DE RANDAT: ', message)
                                 return (
                                     <View style={{ alignSelf: message.item.sender_id == this.sid ? 'flex-start' : 'flex-end', paddingHorizontal: 20, paddingVertical: 7, elevation: 10, backgroundColor: message.item.sender_id == this.sid ? 'green' : 'blue', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginBottom: 10, marginRight: 10 }}>
                                         <Text selectable={true} selectionColor='orange' style={{ flexWrap: 'wrap', color: '#fff' }}>{message.item.text}</Text>
