@@ -5,6 +5,9 @@ import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Foundation from 'react-native-vector-icons/Foundation';
 
 import api from '../../api';
 
@@ -147,7 +150,7 @@ export default class ModalNewAppointment extends React.Component {
                                         value={this.state.age}
                                         onChangeText={text => this.setState({ age: text })}
                                     />
-                                    <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                                    <Foundation style={{ position: 'absolute', left: 12 }} name="list-number" color="white" size={20} />
                                 </View>
 
                                 <View style={styles.viewInput}>
@@ -159,7 +162,7 @@ export default class ModalNewAppointment extends React.Component {
                                         value={this.state.email}
                                         onChangeText={text => this.setState({ email: text })}
                                     />
-                                    <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                                    <Entypo style={{ position: 'absolute', left: 12 }} name="email" color="white" size={20} />
                                 </View>
 
                                 <View style={styles.viewInput}>
@@ -171,7 +174,7 @@ export default class ModalNewAppointment extends React.Component {
                                         value={this.state.phone}
                                         onChangeText={text => this.setState({ phone: text })}
                                     />
-                                    <EvilIcons style={{ position: 'absolute', left: 8 }} name="user" color="white" size={30} />
+                                    <AntDesign style={{ position: 'absolute', left: 12 }} name="phone" color="white" size={20} />
                                 </View>
 
                                 <View style={styles.viewInput}>
