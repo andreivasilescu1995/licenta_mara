@@ -17,7 +17,7 @@ export default class Appointments extends React.Component {
         }
         this.refModalApp = React.createRef();
 
-        console.log('PROPS PROGRAMARI: ', props);
+        // console.log('PROPS PROGRAMARI: ', props);
     }
 
     componentDidMount() {
@@ -37,7 +37,7 @@ export default class Appointments extends React.Component {
         else {
             api.post('getConsultations', { id_pacient: this.props.creditentials.user_id })
                 .then(response => {
-                    // console.log('programari: ', response.data);
+                    console.log('programari: ', response.data);
                     this.setState({ appointments: response.data, loading: false });
                 })
                 .finally(() => this.setState({ loading: false }));
@@ -87,7 +87,7 @@ export default class Appointments extends React.Component {
                                                 <View key={index} style={{ flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.25)', padding: 10, borderRadius: 10, marginBottom: 10 }}>
                                                     <Text style={{ fontWeight: 'bold', color: '#fff', textTransform: 'uppercase' }}>{appointment.tip_consultatie}</Text>
                                                     <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Locatie: </Text>{appointment.nume_locatie}</Text>
-                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Data: </Text>{appointment.data.getDate()}/{appointment.data.getMonth()}/{appointment.data.getFullYear()}</Text>
+                                                    <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Data: </Text>{appointment.data.getDate()}/{appointment.data.getMonth() + 1}/{appointment.data.getFullYear()}</Text>
                                                     <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Medic: </Text> {appointment.nume_medic}</Text>
                                                     <Text style={{ color: '#fff' }}><Text style={{ fontWeight: 'bold' }}>Procedura: </Text> {appointment.nume_subserviciu}</Text>
                                                 </View>

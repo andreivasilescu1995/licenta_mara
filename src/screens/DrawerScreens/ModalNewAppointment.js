@@ -214,9 +214,9 @@ export default class ModalNewAppointment extends React.Component {
                                     mode="date"
                                     placeholder={this.state.timestamp ? this.state.timestamp : 'Selecteaza data'}
                                     placeholderTextColor={'#fff'}
-                                    format={'YYYY-MM-DD'}
-                                    minDate="2021-01-01"
-                                    maxDate="2021-12-12"
+                                    format={'DD-MM-YYYY'}
+                                    minDate={"01-04-2021"}
+                                    maxDate={"30-12-2021"}
                                     confirmBtnText="Confirm"
                                     cancelBtnText="Cancel"
                                     customStyles={{
