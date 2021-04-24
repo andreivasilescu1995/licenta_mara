@@ -12,12 +12,12 @@ export default class Appointments extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            logged: props.route.params?.logged ? props.route.params.logged : true,
+            logged: props.creditentials ? true : false,
             appointments: [],
         }
         this.refModalApp = React.createRef();
 
-        // console.log('PROPS PROGRAMARI: ', props);
+        console.log('PROPS PROGRAMARI: ', props);
     }
 
     componentDidMount() {
