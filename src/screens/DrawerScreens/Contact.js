@@ -18,7 +18,7 @@ export default class Medics extends React.Component {
     }
 
     handleEmail() {
-        const to = ['andrei.vasilescu1995@gmail.com']
+        const to = ['costache.marra@gmail.com']
         email(to, {
             subject: 'CONTACT - ' + this.state.nume,
             body: this.state.mesaj,
