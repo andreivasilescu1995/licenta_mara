@@ -16,10 +16,10 @@ import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const Register = (props) => {
-    const [username, setUsername] = React.useState('test1');
+    const [username, setUsername] = React.useState('test12');
     const [password, setPassword] = React.useState('1234');
     const [name, setName] = React.useState('test1');
-    const [email, setEmail] = React.useState('test1');
+    const [email, setEmail] = React.useState('test1@test.com');
     const [cnp, setCnp] = React.useState('1234567891234');
     const [address, setAddress] = React.useState('test1');
     const [phoneNumber, setPhoneNumber] = React.useState('0737092953');
@@ -224,8 +224,8 @@ export const Register = (props) => {
                                     placeholder={birthdate ? birthdate : 'Selecteaza data nasterii'}
                                     placeholderTextColor={'#fff'}
                                     format="DD-MM-YYYY"
-                                    minDate="2016-05-01"
-                                    maxDate="2016-06-01"
+                                    minDate={new Date("2000-12-31")}
+                                    maxDate={new Date("2021-06-01")}
                                     confirmBtnText="Confirm"
                                     cancelBtnText="Cancel"
                                     customStyles={{
@@ -247,7 +247,7 @@ export const Register = (props) => {
                                             color: '#fff'
                                         }
                                     }}
-                                    onDateChange={(date) => { setBirthDate(date) }}
+                                    onDateChange={(date) => { console.log('DATE: ', date); setBirthDate(date) }}
                                 />
 
                                 <View style={[styles.inputView, { width: '80%', height: 50, paddingHorizontal: 5, borderWidth: 1, borderColor: '#fff', borderRadius: 20, marginTop: 20 }]}>
